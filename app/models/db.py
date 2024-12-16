@@ -13,3 +13,13 @@ def add_prefix_for_prod(attr):
         return f"{SCHEMA}.{attr}"
     else:
         return attr
+
+
+#join tables for many to many relationships
+job_users = db.Table("job_users",
+    db.Column("user_id", db.ForeignKey("users.id"), primary_key=True),
+    db.Column("job_id", db.ForeignKey("jobs.id"), primary_key=True))
+
+contact_jobs = db.Table("contact_jobs",
+    db.Column("contact_id", db.ForeignKey("contacts.id"), primary_key=True),
+    db.Column("job_id", db.ForeignKey("jobs.id"), primary_key=True))

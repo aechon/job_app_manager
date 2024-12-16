@@ -12,9 +12,13 @@ class Event(db.Model):
     type = db.Column(db.String(50))
     interviewer = db.Column(db.String(50))
     duration = db.Column(db.Integer, nullable=False)
-    userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    jobId = db.Column(db.Integer, db.ForeignKey('job.id'), nullable=False)
-    contactId = db.Column(db.Integer, db.ForeignKey('contact.id'))
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    jobId = db.Column(db.Integer, db.ForeignKey('jobs.id'), nullable=False)
+    contactId = db.Column(db.Integer, db.ForeignKey('contacts.id'))
+
+    user = db.relationship("User", back_populates="events")
+    job = db.relationship("Job", back_populates="events")
+    contact = db.relationship("Contact", back_populates="events")
 
     def to_dict(self):
         return {

@@ -12,7 +12,10 @@ class Job(db.Model):
     location = db.Column(db.String(50))
     employer = db.Column(db.String(50), nullable=False)
     pay = db.Column(db.Integer)
-    creatorId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    creatorId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    creator = db.relationship("User", back_populates="jobs")
+    users = db.relationship("User", secondary=db.job_user, back_populates="jobs")
 
     def to_dict(self):
         return {
