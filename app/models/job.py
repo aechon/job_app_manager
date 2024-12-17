@@ -1,4 +1,4 @@
-from .db import db, contact_jobs, job_forms, environment, SCHEMA, add_prefix_for_prod
+from .db import db, contact_jobs, job_forms, job_users, environment, SCHEMA, add_prefix_for_prod
 
 
 class Job(db.Model):
@@ -12,12 +12,13 @@ class Job(db.Model):
     location = db.Column(db.String(50))
     employer = db.Column(db.String(50), nullable=False)
     pay = db.Column(db.Integer)
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    creatorId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    user = db.relationship("User", back_populates="jobs")
+    creator = db.relationship("User", back_populates="job")
     events = db.relationship("Event", back_populates="job")
     contacts = db.relationship("Contact", secondary=contact_jobs, back_populates="jobs")
     forms = db.relationship("Form", secondary=job_forms, back_populates="jobs")
+    users = db.relationship("User", secondary=job_users, back_populates="jobs")
 
     def to_dict(self):
         return {
@@ -26,5 +27,5 @@ class Job(db.Model):
             'location': self.location,
             'employer': self.employer,
             'pay': self.pay,
-            'userId': self.userId
+            'creatorId': self.creatorId
         }
