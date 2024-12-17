@@ -12,9 +12,9 @@ class Job(db.Model):
     location = db.Column(db.String(50))
     employer = db.Column(db.String(50), nullable=False)
     pay = db.Column(db.Integer)
-    creatorId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    creator = db.relationship("User", back_populates="jobs")
+    user = db.relationship("User", back_populates="jobs")
     events = db.relationship("Event", back_populates="job")
     contacts = db.relationship("Contact", secondary=contact_jobs, back_populates="jobs")
     forms = db.relationship("Form", secondary=job_forms, back_populates="jobs")
@@ -26,5 +26,5 @@ class Job(db.Model):
             'location': self.location,
             'employer': self.employer,
             'pay': self.pay,
-            'creatorId': self.creatorId
+            'userId': self.userId
         }

@@ -45,8 +45,8 @@ def upgrade():
     sa.Column('location', sa.String(length=50), nullable=True),
     sa.Column('employer', sa.String(length=50), nullable=False),
     sa.Column('pay', sa.Integer(), nullable=True),
-    sa.Column('creatorId', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['creatorId'], ['users.id'], ),
+    sa.Column('userId', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('events',
