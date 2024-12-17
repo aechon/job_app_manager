@@ -13,7 +13,7 @@ class Form(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship("User", back_populates="forms")
-    jobs = db.relationship("Job", secondary=job_forms, back_populates="users")
+    jobs = db.relationship("Job", secondary=job_forms, back_populates="forms")
 
     def to_dict(self):
         return {
