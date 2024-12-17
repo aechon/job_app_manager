@@ -15,7 +15,7 @@ class Contact(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship("User", back_populates="contacts")
-    jobs = db.relationship("Job", secondary=db.contact_jobs, back_populates="contacts")
+    # jobs = db.relationship("Job", secondary=db.contact_jobs, back_populates="contacts")
 
     def to_dict(self):
         return {

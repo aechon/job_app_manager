@@ -10,7 +10,7 @@ class Form(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     link = db.Column(db.String(255), nullable=False)
-    userId = db.Column(db.Intger, db.ForeignKey('users.id'), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship("User", back_populates="forms")
 

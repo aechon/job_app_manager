@@ -14,6 +14,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
+    # jobs = db.relationship("Job", secondary=db.job_users, back_populates="users")
+
     @property
     def password(self):
         return self.hashed_password
