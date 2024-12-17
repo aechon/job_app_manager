@@ -1,4 +1,4 @@
-from .db import db, job_users, environment, SCHEMA, add_prefix_for_prod
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -14,7 +14,10 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
-    jobs = db.relationship("Job", secondary=job_users, back_populates="users")
+    contacts = db.relationship("Contact", back_populates="user")
+    forms = db.relationship("Form", back_populates="user")
+    events = db.relationship("Event", back_populates="user")
+    jobs = db.relationship("Job",  back_populates="user")
 
     @property
     def password(self):

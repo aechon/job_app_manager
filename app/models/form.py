@@ -1,4 +1,4 @@
-from .db import db, environment, SCHEMA, add_prefix_for_prod
+from .db import db, job_forms, environment, SCHEMA, add_prefix_for_prod
 
 
 class Form(db.Model):
@@ -13,6 +13,7 @@ class Form(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship("User", back_populates="forms")
+    jobs = db.relationship("Job", secondary=job_forms, back_populates="users")
 
     def to_dict(self):
         return {

@@ -1,4 +1,4 @@
-from .db import db, contact_jobs, job_users
+from .db import db, contact_jobs, job_forms
 from .user import User
 from .job import Job
 from .contact import Contact

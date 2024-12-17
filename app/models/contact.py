@@ -15,6 +15,7 @@ class Contact(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship("User", back_populates="contacts")
+    event = db.relationship("Event", back_populates="contact")
     jobs = db.relationship("Job", secondary=contact_jobs, back_populates="contacts")
 
     def to_dict(self):
