@@ -6,16 +6,22 @@ contact_routes = Blueprint('contacts', __name__)
 @contact_routes.route('/contact', methods=['POST'])
 def create_contact():
     data = request.get_json()
+
+    # Ensure all required fields are provided
+    if not all(k in data for k in ("name", "phone", "email", "company", "userId")):
+        return jsonify({"error": "Missing required data"}), 400
+
     new_contact = Contact(
-        name=data['name'],
-        phone=data['phone'],
-        email=data['email'],
-        company=data['company'],
-        user_id=data['user_id']
+        name=data.get('name'),
+        phone=data.get('phone'),
+        email=data.get('email'),
+        company=data.get('company'),
+        userId=data.get('userId')
     )
     db.session.add(new_contact)
     db.session.commit()
     return jsonify(new_contact.to_dict()), 201
+
 
 @contact_routes.route('/contact', methods=['GET'])
 def get_all_contact():
