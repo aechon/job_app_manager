@@ -22,26 +22,3 @@ class Form(db.Model):
             'link': self.link,
             'userId': self.userId
         }
-# from .db import db, job_forms, environment, SCHEMA, add_prefix_for_prod
-
-# class Form(db.Model):
-#     __tablename__ = 'forms'
-
-#     if environment == "production":
-#         __table_args__ = {'schema': SCHEMA}
-
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(50), nullable=False)
-#     link = db.Column(db.String(255), nullable=False)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Changed from userId to user_id
-
-#     user = db.relationship("User", back_populates="forms")
-#     jobs = db.relationship("Job", secondary=job_forms, back_populates="forms")
-
-#     def to_dict(self):
-#         return {
-#             'id': self.id,
-#             'name': self.name,
-#             'link': self.link,
-#             'user_id': self.user_id  # Changed from userId to user_id for consistency
-#         }
