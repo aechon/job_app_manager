@@ -13,6 +13,8 @@ class Job(db.Model):
     employer = db.Column(db.String(50), nullable=False)
     pay = db.Column(db.Integer)
     creatorId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    createdAt = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
+    updatedAt = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
 
     creator = db.relationship("User", back_populates="job")
     events = db.relationship("Event", back_populates="job")

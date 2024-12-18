@@ -13,6 +13,8 @@ class Contact(db.Model):
     email = db.Column(db.String(255))
     company = db.Column(db.String(50))
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    createdAt = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
+    updatedAt = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
 
     user = db.relationship("User", back_populates="contacts")
     events = db.relationship("Event", back_populates="contact")
