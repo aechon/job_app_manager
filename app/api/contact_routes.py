@@ -1,7 +1,18 @@
+import re
 from flask import Blueprint, request, jsonify
 from app.models import Contact, db
 
 contact_routes = Blueprint('contacts', __name__)
+
+def validate_phone(phone):
+    phone_regex = r"^\+?1?\d{9,15}$"
+    return re.match(phone_regex, phone)
+
+
+def validate_email(email):
+    email_regex =  r"[^@]+@[^@]+\.[^@]+"
+    return re.match(email_regex, email)
+
 
 @contact_routes.route('/contact', methods=['POST'])
 def create_contact():
@@ -10,12 +21,26 @@ def create_contact():
     # Ensure all required fields are provided
     if not all(k in data for k in ("name", "phone", "email", "company", "userId")):
         return jsonify({"error": "Missing required data"}), 400
+    
+    name = data["name"]
+    if len(name) > 50:
+        return jsonify({"error": "name must be 50 characters or less"})
+    
+    company = data["company"]
+    if len(company) > 50:
+        return jsonify({"error": "name must be 50 characters or less"})
+    
+    if not validate_phone(data['phone']):
+        return jsonify({"error": "invalid phone number"})
+    
+    if not validate_email(data['email']):
+        return jsonify({"error": "invalid email"})
 
     new_contact = Contact(
-        name=data.get('name'),
+        name=name,
         phone=data.get('phone'),
         email=data.get('email'),
-        company=data.get('company'),
+        company=company,
         userId=data.get('userId')
     )
     db.session.add(new_contact)
