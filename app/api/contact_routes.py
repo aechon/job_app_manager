@@ -24,17 +24,17 @@ def create_contact():
     
     name = data["name"]
     if len(name) > 50:
-        return jsonify({"error": "name must be 50 characters or less"})
+        return jsonify({"error": "name must be 50 characters or less"}), 400
     
     company = data["company"]
     if len(company) > 50:
-        return jsonify({"error": "name must be 50 characters or less"})
+        return jsonify({"error": "name must be 50 characters or less"}), 400
     
     if not validate_phone(data['phone']):
-        return jsonify({"error": "invalid phone number"})
+        return jsonify({"error": "invalid phone number"}), 400
     
     if not validate_email(data['email']):
-        return jsonify({"error": "invalid email"})
+        return jsonify({"error": "invalid email"}), 400
 
     new_contact = Contact(
         name=name,
