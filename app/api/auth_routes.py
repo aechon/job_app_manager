@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, make_response,  session
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
@@ -34,13 +34,22 @@ def login():
     return form.errors, 401
 
 
+
+
 @auth_routes.route('/logout')
+@login_required
 def logout():
     """
-    Logs a user out
+    Logs a user out and deletes the CSRF token from the session and cookie
     """
-    logout_user()
-    return {'message': 'User logged out'}
+    logout_user() 
+
+    session.pop('_csrf_token', None)
+
+    response = make_response({'message': 'User logged out'})
+    response.set_cookie('_csrf_token', '', expires=0)  
+    return response
+
 
 
 @auth_routes.route('/signup', methods=['POST'])
