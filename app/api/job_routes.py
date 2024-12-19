@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
-from app.models import Job, db, job_users
+from app.models import Job, db, user_jobs
 from flask_login import current_user, login_required
-from sqlalchemy import select, insert
 
 job_routes = Blueprint('jobs', __name__)
 
@@ -42,11 +41,13 @@ def add_job_to_user(job_id):
     if job.creatorId == current_user.id:
         return jsonify({"message": "User is already the creator of the job"}), 400
     
-    print(insert(job_users).values(user_id=current_user.id, job_id=job_id))
+    if db.session.execute(db.select(user_jobs).where(user_jobs.c.user_id == current_user.id, user_jobs.c.job_id == job_id)).first():
+        return jsonify({"message": "Job already added"}), 400
 
-    print(select(job_users))
+    db.session.execute(db.insert(user_jobs).values(user_id=current_user.id, job_id=job_id))
+    db.session.commit()
 
-    return jsonify('add relation route test')
+    return jsonify(f'Job {job_id} added to User {current_user.id}')
 
 # Delete a relation between a job and user
 @job_routes.route('/<int:job_id>/remove', methods=['DELETE'])
@@ -56,9 +57,14 @@ def remove_job_to_user(job_id):
     if not job:
         return jsonify({"message": "Job not found"}), 404
     
-
-
-    return jsonify('remove relation route test')
+    if db.session.execute(db.select(user_jobs).where(user_jobs.c.user_id == current_user.id, user_jobs.c.job_id == job_id)).first():
+        db.session.execute(db.delete(user_jobs).where(user_jobs.c.user_id == current_user.id, user_jobs.c.job_id == job_id))
+        db.session.commit()
+        return jsonify(f'Job {job_id} removed from User {current_user.id}')
+    
+    else:
+        return jsonify({"message": "Relation not found"}), 404
+    
 
 # Get Current User's Jobs
 @job_routes.route('/current', methods=['GET'])

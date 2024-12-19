@@ -1,4 +1,4 @@
-from .db import db, contact_jobs, job_forms, job_users, environment, SCHEMA, add_prefix_for_prod
+from .db import db, contact_jobs, job_forms, user_jobs, environment, SCHEMA, add_prefix_for_prod
 
 
 class Job(db.Model):
@@ -20,7 +20,7 @@ class Job(db.Model):
     events = db.relationship("Event", back_populates="job")
     contacts = db.relationship("Contact", secondary=contact_jobs, back_populates="jobs")
     forms = db.relationship("Form", secondary=job_forms, back_populates="jobs")
-    users = db.relationship("User", secondary=job_users, back_populates="jobs")
+    users = db.relationship("User", secondary=user_jobs, back_populates="jobs")
 
     def to_dict(self):
         return {

@@ -20,7 +20,7 @@ contact_jobs = db.Table("contact_jobs", db.metadata,
     db.Column("contact_id", db.ForeignKey("contacts.id"), primary_key=True),
     db.Column("job_id", db.ForeignKey("jobs.id"), primary_key=True))
 
-job_users = db.Table("job_users", db.metadata, 
+user_jobs = db.Table("user_jobs", db.metadata, 
     db.Column("user_id", db.ForeignKey("users.id"), primary_key=True),
     db.Column("job_id", db.ForeignKey("jobs.id"), primary_key=True))
 
