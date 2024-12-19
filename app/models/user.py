@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    createdAt = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
 
     contacts = db.relationship("Contact", back_populates="user")
     forms = db.relationship("Form", back_populates="user")

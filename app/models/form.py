@@ -11,6 +11,8 @@ class Form(db.Model):
     name = db.Column(db.String(50), nullable=False)
     link = db.Column(db.String(255), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    createdAt = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
+    updatedAt = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
 
     user = db.relationship("User", back_populates="forms")
     jobs = db.relationship("Job", secondary=job_forms, back_populates="forms")
