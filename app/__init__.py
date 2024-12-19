@@ -8,13 +8,9 @@ from flask_login import LoginManager
 from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
-<<<<<<< HEAD
 from .api.job_routes import job_routes
 from .api.contact_routes import contact_routes
-=======
-from .api.form_routes import form_routes  # Import the forms <<====
-# from .api.jobs_routes import jobs_routes  # Import the forms <<====
->>>>>>> origin/form_postman
+from .api.form_routes import form_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -37,13 +33,9 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
-<<<<<<< HEAD
 app.register_blueprint(job_routes, url_prefix='/api/jobs')
 app.register_blueprint(contact_routes, url_prefix='/api/contacts')
-=======
-app.register_blueprint(form_routes, url_prefix='/api/forms')  # <<=======
-# app.register_blueprint(jobs_routes, url_prefix='/api/jobs')  # <<=======
->>>>>>> origin/form_postman
+app.register_blueprint(form_routes, url_prefix='/api/forms')
 db.init_app(app)
 Migrate(app, db)
 
