@@ -1,6 +1,6 @@
 import re
-from flask import Blueprint, request, jsonify, session
-from flask_login import current_user, login_required, logout_user
+from flask import Blueprint, request, jsonify
+from flask_login import current_user, login_required
 from app.models import Contact, db
 
 contact_routes = Blueprint('contacts', __name__)

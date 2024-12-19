@@ -1,8 +1,6 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify
 from app.models import Job, db
-from flask_login import current_user, login_required, logout_user
-from datetime import datetime
-from functools import wraps
+from flask_login import current_user, login_required
 
 job_routes = Blueprint('jobs', __name__)
 
@@ -11,7 +9,6 @@ job_routes = Blueprint('jobs', __name__)
 def get_all_job():
     jobs = Job.query.all()
     return jsonify([job.to_dict() for job in jobs])
-    
 
 # Create a New Job
 @job_routes.route('/new', methods=['POST'])
@@ -37,7 +34,7 @@ def create_job():
 @job_routes.route('/current', methods=['GET'])
 @login_required
 def get_user_jobs():
-    jobs = Job.query.filter_by(user.id=current_user.id).all()
+    jobs = Job.query.filter_by(creatorId=current_user.id).all()
     jobs_data = []
     for job in jobs:
         job_info = {
@@ -45,8 +42,7 @@ def get_user_jobs():
             "name": job.name,
             "location": job.location,
             "employer": job.employer,
-            "pay": job.pay,
-            "interview": job.interview
+            "pay": job.pay
         }
         jobs_data.append(job_info)
 
@@ -77,7 +73,7 @@ def edit_job(job_id):
     job.location = data.get('location', job.location)
     job.employer = data['employer']
     job.pay = data.get('pay', job.pay)
-    job.updatedAt = datetime.now()
+    
 
     db.session.commit()
 
@@ -97,4 +93,3 @@ def delete_job(job_id):
     db.session.commit()
 
     return jsonify({"message": "Successfully deleted"}), 200
-
