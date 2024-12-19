@@ -2,6 +2,7 @@
 from flask import Blueprint, request, jsonify
 from flask_login import current_user, login_required
 from app.models import Form, db
+import re 
 
 form_routes = Blueprint('forms', __name__)
 
@@ -48,8 +49,14 @@ def get_job_forms(jobId):
 @login_required
 def create_form():
     data = request.get_json()
+
+    # Validate name and link
     if not all(k in data for k in ("name", "link")):
         return jsonify({"error": "Missing required data"}), 400
+    if not re.match(r'^[a-zA-Z\s]+$', data['name']):
+        return jsonify({"error": "Name must contain only letters and spaces"}), 400
+    if not re.match(r'^https?://.+', data['link']):
+        return jsonify({"error": "Invalid link format"}), 400
 
     new_form = Form(
         name=data.get('name'),
@@ -69,6 +76,13 @@ def edit_form(formId):
         return jsonify({"message": "Form couldn't be found"}), 404
 
     data = request.get_json()
+
+    # Validate name and link
+    if 'name' in data and not re.match(r'^[a-zA-Z\s]+$', data['name']):
+        return jsonify({"error": "Name must contain only letters and spaces"}), 400
+    if 'link' in data and not re.match(r'^https?://.+', data['link']):
+        return jsonify({"error": "Invalid link format"}), 400
+
     form.name = data.get('name', form.name)
     form.link = data.get('link', form.link)
     db.session.commit()
