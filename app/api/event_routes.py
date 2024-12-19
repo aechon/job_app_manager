@@ -8,6 +8,9 @@ event_routes = Blueprint('events', __name__)
 def validate_event(data, eventId=None):
     errors = {}
 
+    # add check for if jobId is valid
+    # add check if contactId is valid
+
     if type(data.get('duration')) is not int:
         errors['duration'] = 'Must be an integer'
     elif data.get('duration') < 1:
@@ -29,13 +32,14 @@ def validate_event(data, eventId=None):
         return errors
 
 
+# Gets all the events of the currently logged in user
 @event_routes.route('/session', methods=['GET'])
 @login_required
 def get_schedule():
     schedule = Event.query.filter_by(userId=current_user.id).all()
     return jsonify([event.to_dict() for event in schedule])
 
-
+# Creates a new event in the database
 @event_routes.route('/new', methods=['POST'])
 @login_required
 def create_schedule_event():
@@ -63,6 +67,21 @@ def create_schedule_event():
     db.session.commit()
     return jsonify(new_event.to_dict()), 201
 
+# Gets the details of an event by id
+@event_routes.route('/<int:event_id>', methods=['GET'])
+@login_required
+def get_event_details(event_id):
+    event = Event.query.get(event_id)
+
+    if not event:
+        return jsonify({"message": "Event not found"}), 404
+    
+    if event.userId != current_user.id:
+        return jsonify({"error": "Unauthorized access"}), 403
+
+    return jsonify(event.to_dict())
+
+# Updates and existing event by id
 @event_routes.route('/<int:event_id>', methods=['PUT'])
 @login_required
 def edit_schedule_event(event_id):
@@ -93,7 +112,7 @@ def edit_schedule_event(event_id):
 
     return jsonify(event.to_dict()), 201
 
-
+# Delete an event
 @event_routes.route('/<int:event_id>', methods=['DELETE'])
 @login_required
 def delete_schedule_event(event_id):
@@ -109,6 +128,5 @@ def delete_schedule_event(event_id):
     db.session.commit()
     return jsonify({"message": "Event was successfully deleted"})
 
-# get by event id
 # get by contact id
 # get by job id
