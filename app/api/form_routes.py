@@ -43,20 +43,6 @@ def get_job_forms(jobId):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Create a form
 @form_routes.route('/new', methods=['POST'])
 @login_required
