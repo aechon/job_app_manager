@@ -37,7 +37,7 @@ def create_job():
 @job_routes.route('/current', methods=['GET'])
 @login_required
 def get_user_jobs():
-    jobs = Job.query.filter_by(user.id=current_user.id).all()
+    jobs = Job.query.filter_by(creatorId=current_user.id).all()
     jobs_data = []
     for job in jobs:
         job_info = {
@@ -45,8 +45,7 @@ def get_user_jobs():
             "name": job.name,
             "location": job.location,
             "employer": job.employer,
-            "pay": job.pay,
-            "interview": job.interview
+            "pay": job.pay
         }
         jobs_data.append(job_info)
 
