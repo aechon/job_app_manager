@@ -1,5 +1,4 @@
 from .db import db, contact_jobs, job_forms, job_users, environment, SCHEMA, add_prefix_for_prod
-# from flask_validator import ValidateName, ValidateLocation, ValidateEmployer, ValidatePay
 
 class Job(db.Model):
     __tablename__ = 'jobs'
@@ -30,10 +29,5 @@ class Job(db.Model):
             'creatorId': self.creatorId
         }
 
-    # @classmethod
-    # def __declare_last__(cls):
-    #     ValidateName(Job.name)
-    #     ValidateLocation(Job.location)
-    #     ValidateEmployer(Job.employer)
-    #     ValidatePay(Job.pay)
+    
 
