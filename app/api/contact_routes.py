@@ -17,6 +17,7 @@ def validate_email(email):
 @contact_routes.route('/contact', methods=['POST'])
 def create_contact():
     data = request.get_json()
+    errors = []
 
     # Ensure all required fields are provided
     if not all(k in data for k in ("name", "phone", "email", "company", "userId")):
@@ -24,17 +25,20 @@ def create_contact():
     
     name = data["name"]
     if len(name) > 50:
-        return jsonify({"error": "name must be 50 characters or less"}), 400
+        errors.append("name must be 50 characters or less")
     
     company = data["company"]
     if len(company) > 50:
-        return jsonify({"error": "name must be 50 characters or less"}), 400
+        errors.append("name must be 50 characters or less")
     
     if not validate_phone(data['phone']):
-        return jsonify({"error": "invalid phone number"}), 400
+        errors.append("invalid phone number")
     
     if not validate_email(data['email']):
-        return jsonify({"error": "invalid email"}), 400
+        errors.append("invalid email")
+
+        if errors:
+            return jsonify({"errors": errors}), 400 
 
     new_contact = Contact(
         name=name,
