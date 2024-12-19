@@ -8,13 +8,10 @@ from flask_login import LoginManager
 from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
-<<<<<<< HEAD
 from .api.job_routes import job_routes
 from .api.contact_routes import contact_routes
 from .api.form_routes import form_routes
-=======
 from .api.event_routes import event_routes
->>>>>>> event-routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -37,13 +34,10 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
-<<<<<<< HEAD
 app.register_blueprint(job_routes, url_prefix='/api/jobs')
 app.register_blueprint(contact_routes, url_prefix='/api/contacts')
 app.register_blueprint(form_routes, url_prefix='/api/forms')
-=======
 app.register_blueprint(event_routes, url_prefix='/api/schedule')
->>>>>>> event-routes
 db.init_app(app)
 Migrate(app, db)
     
