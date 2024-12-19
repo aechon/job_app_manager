@@ -4,6 +4,8 @@ from flask_login import current_user, login_required
 from app.models import Form, db
 import re 
 
+# re == https://docs.python.org/3/library/re.html
+
 form_routes = Blueprint('forms', __name__)
 
 # Get all forms of the current user
@@ -17,11 +19,6 @@ def get_current_user_forms():
         return jsonify({'message': 'No forms found for the current user.'}), 404
     return jsonify([form.to_dict() for form in forms]), 200
 
-#testing seed
-@form_routes.route('/all', methods=['GET'])
-def get_all_forms():
-    forms = Form.query.all()
-    return jsonify([form.to_dict() for form in forms]), 200
 
 # Get related forms from a Job id
 @form_routes.route('/jobs/<int:jobId>/forms', methods=['GET'])
@@ -37,20 +34,13 @@ def get_job_forms(jobId):
 
 
 
-
-
-
-
-
-
-
 # Create a form
 @form_routes.route('/new', methods=['POST'])
 @login_required
 def create_form():
     data = request.get_json()
 
-    # Validate name and link
+
     if not all(k in data for k in ("name", "link")):
         return jsonify({"error": "Missing required data"}), 400
     if not re.match(r'^[a-zA-Z\s]+$', data['name']):
@@ -77,7 +67,6 @@ def edit_form(formId):
 
     data = request.get_json()
 
-    # Validate name and link
     if 'name' in data and not re.match(r'^[a-zA-Z\s]+$', data['name']):
         return jsonify({"error": "Name must contain only letters and spaces"}), 400
     if 'link' in data and not re.match(r'^https?://.+', data['link']):
