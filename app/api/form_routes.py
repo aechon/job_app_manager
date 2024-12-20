@@ -1,48 +1,20 @@
-
 from flask import Blueprint, request, jsonify
 from flask_login import current_user, login_required
-from app.models import Form, db
-import re 
+from app.models import Form, db, Job, user_jobs, User
+import re
 
 form_routes = Blueprint('forms', __name__)
 
 # Get all forms of the current user
-@form_routes.route('/current', methods=['GET'])
+@form_routes.route('/session', methods=['GET'])
 @login_required
 def get_current_user_forms():
-    print(f"Current user ID: {current_user.id}<<=================")  # Removeeeeeee meeeeeeeeeeeeeeeeee debuggg
     forms = Form.query.filter_by(userId=current_user.id).all()
-    print(f"Forms found: {forms}<<=================")  # Removeeeeeee meeeeeeeeeeeeeeeeee debuggg
-    if not forms:
-        return jsonify({'message': 'No forms found for the current user.'}), 404
+
+    # instead of throwing an error message here let's let the frontend decide what to do wtih an empty array of forms
+    # if not forms:
+    #     return jsonify({'message': 'No forms found for the current user.'}), 404
     return jsonify([form.to_dict() for form in forms]), 200
-
-#testing seed
-@form_routes.route('/all', methods=['GET'])
-def get_all_forms():
-    forms = Form.query.all()
-    return jsonify([form.to_dict() for form in forms]), 200
-
-# Get related forms from a Job id
-@form_routes.route('/jobs/<int:jobId>/forms', methods=['GET'])
-@login_required
-def get_job_forms(jobId):
-    print("hello") # REMOVE MEEEEEEEEE <<=================
-    job = Job.query.filter_by(id=jobId, userId=current_user.id).first()
-    if not job:
-        return jsonify({"message": "Job couldn't be found"}), 404
-
-    forms = job.forms  
-    return jsonify([form.to_dict() for form in forms]), 200
-
-
-
-
-
-
-
-
-
 
 # Create a form
 @form_routes.route('/new', methods=['POST'])
@@ -67,11 +39,35 @@ def create_form():
     db.session.commit()
     return jsonify(new_form.to_dict()), 201
 
-# Edit a form
-@form_routes.route('/<int:formId>', methods=['PUT'])
+# Get form details by id
+@form_routes.route('/<int:form_id>', methods=['GET'])
 @login_required
-def edit_form(formId):
-    form = Form.query.filter_by(id=formId, userId=current_user.id).first()
+def get_form_details(form_id):
+    form = Form.query.filter_by(id=form_id, userId=current_user.id).first()
+    if not form:
+        return jsonify({"message": "Form couldn't be found"}), 404
+
+    return jsonify(form.to_dict()), 201
+
+# Get related forms from a Job id
+@form_routes.route('/job/<int:job_id>', methods=['GET'])
+@login_required
+def get_job_forms(job_id):
+    job = Job.query.get(job_id)
+    if not job:
+        return jsonify({"message": "Job couldn't be found"}), 404
+
+    if job.creatorId != current_user.id and job not in Job.query.join(user_jobs, Job.id == user_jobs.c.job_id).join(User, user_jobs.c.user_id == User.id).filter_by(id=current_user.id).all():
+        return jsonify({"error": "Unauthorized access"}), 403
+
+    forms = job.forms.filter_by(userId=current_user.id) 
+    return jsonify([form.to_dict() for form in forms]), 200
+
+# Edit a form
+@form_routes.route('/<int:form_id>', methods=['PUT'])
+@login_required
+def edit_form(form_id):
+    form = Form.query.filter_by(id=form_id, userId=current_user.id).first()
     if not form:
         return jsonify({"message": "Form couldn't be found"}), 404
 
@@ -86,13 +82,13 @@ def edit_form(formId):
     form.name = data.get('name', form.name)
     form.link = data.get('link', form.link)
     db.session.commit()
-    return jsonify(form.to_dict()), 200
+    return jsonify(form.to_dict()), 201
 
 # Delete a form
-@form_routes.route('/<int:formId>', methods=['DELETE'])
+@form_routes.route('/<int:form_id>', methods=['DELETE'])
 @login_required
-def delete_form(formId):
-    form = Form.query.filter_by(id=formId, userId=current_user.id).first()
+def delete_form(form_id):
+    form = Form.query.filter_by(id=form_id, userId=current_user.id).first()
     if not form:
         return jsonify({"message": "Form couldn't be found"}), 404
 

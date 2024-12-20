@@ -17,9 +17,9 @@ class Job(db.Model):
     updatedAt = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
 
     creator = db.relationship("User", back_populates="job")
-    events = db.relationship("Event", back_populates="job")
-    contacts = db.relationship("Contact", secondary=contact_jobs, back_populates="jobs")
-    forms = db.relationship("Form", secondary=job_forms, back_populates="jobs")
+    events = db.relationship("Event", lazy='dynamic', back_populates="job")
+    contacts = db.relationship("Contact", secondary=contact_jobs, lazy='dynamic', back_populates="jobs")
+    forms = db.relationship("Form", secondary=job_forms, lazy='dynamic', back_populates="jobs")
     users = db.relationship("User", secondary=user_jobs, back_populates="jobs")
 
     def to_dict(self):

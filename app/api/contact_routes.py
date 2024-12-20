@@ -15,12 +15,19 @@ def validate_email(email):
     return re.match(email_regex, email)
 
 
+# Get current user contacts
+@contact_routes.route('/session', methods=['GET'])
+@login_required
+def get_all_contact():
+    contacts = Contact.query.filter_by(userId=current_user.id).all()
+    return jsonify([contact.to_dict() for contact in contacts])
 
-@contact_routes.route('/contact', methods=['POST'])
+# Create a new contact
+@contact_routes.route('/new', methods=['POST'])
 @login_required
 def create_contact():
     data = request.get_json()
-    if not all(k in data for k in ("name", "phone", "email", "company")):
+    if not all(k in data for k in (["name"])):
         return jsonify({"error": "Missing required data"}), 400
 
     new_contact = Contact(
@@ -34,40 +41,54 @@ def create_contact():
     db.session.commit()
     return jsonify(new_contact.to_dict()), 201
 
-@contact_routes.route('/contact', methods=['GET'])
-@login_required
-def get_all_contact():
-    contacts = Contact.query.filter_by(userId=current_user.id).all()
-    return jsonify([contact.to_dict() for contact in contacts])
-
-@contact_routes.route('/contact/<int:contact_id>', methods=['GET'])
+# Get contact details by id
+@contact_routes.route('/<int:contact_id>', methods=['GET'])
 @login_required
 def get_contact_by_id(contact_id):
-    contact = Contact.query.get_or_404(contact_id)
+    contact = Contact.query.get(contact_id)
+
+    if not contact:
+        return jsonify({"message": "Contact not found"}), 404
+    
     if contact.userId != current_user.id:
         return jsonify({"error": "Unauthorized access"}), 403
+    
     return jsonify(contact.to_dict())
 
-@contact_routes.route('/contact/<int:contact_id>', methods=['PUT'])
+# Edit existing contact
+@contact_routes.route('/<int:contact_id>', methods=['PUT'])
 @login_required
 def update_contact(contact_id):
-    data = request.get_json()
-    contact = Contact.query.get_or_404(contact_id)
+    contact = Contact.query.get(contact_id)
+
+    if not contact:
+        return jsonify({"message": "Contact not found"}), 404
+    
     if contact.userId != current_user.id:
         return jsonify({"error": "Unauthorized access"}), 403
+
+    data = request.get_json()
+
     contact.name = data.get('name', contact.name)
     contact.phone = data.get('phone', contact.phone)
     contact.email = data.get('email', contact.email)
     contact.company = data.get('company', contact.company)
     db.session.commit()
+
     return jsonify(contact.to_dict())
 
-@contact_routes.route('/contact/<int:contact_id>', methods=['DELETE'])
+# Delete a contact
+@contact_routes.route('/<int:contact_id>', methods=['DELETE'])
 @login_required
 def delete_contact(contact_id):
-    contact = Contact.query.get_or_404(contact_id)
+    contact = Contact.query.get(contact_id)
+
+    if not contact:
+        return jsonify({"message": "Contact not found"}), 404
+    
     if contact.userId != current_user.id:
         return jsonify({"error": "Unauthorized access"}), 403
+    
     db.session.delete(contact)
     db.session.commit()
     return jsonify({"message": "Contact was successfully deleted"})

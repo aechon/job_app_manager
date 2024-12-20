@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import Event, db
+from app.models import Event, db, User, user_jobs, Job
 from flask_login import login_required, current_user
 from datetime import datetime, timedelta
 
@@ -8,8 +8,9 @@ event_routes = Blueprint('events', __name__)
 def validate_event(data, eventId=None):
     errors = {}
 
-    # add check for if jobId is valid
-    # add check if contactId is valid
+    job = Job.query.get(data.get('jobId'))
+    if job.creatorId != current_user.id and job not in Job.query.join(user_jobs, Job.id == user_jobs.c.job_id).join(User, user_jobs.c.user_id == User.id).filter_by(id=current_user.id).all():
+        errors['jobId'] = 'User does not have this job id'
 
     if type(data.get('duration')) is not int:
         errors['duration'] = 'Must be an integer'
@@ -128,5 +129,17 @@ def delete_schedule_event(event_id):
     db.session.commit()
     return jsonify({"message": "Event was successfully deleted"})
 
-# get by contact id
-# get by job id
+# Get events related to a job id
+@event_routes.route('/job/<int:job_id>', methods=['GET'])
+@login_required
+def get_job_events(job_id):
+    job = Job.query.get(job_id)
+    if not job:
+        return jsonify({"message": "Job not found"}), 404
+    
+    if job.creatorId != current_user.id and job not in Job.query.join(user_jobs, Job.id == user_jobs.c.job_id).join(User, user_jobs.c.user_id == User.id).filter_by(id=current_user.id).all():
+        return jsonify({"error": "Unauthorized access"}), 403
+
+    events = Event.query.filter_by(jobId=job_id, userId=current_user.id)
+
+    return jsonify([event.to_dict() for event in events]), 200
