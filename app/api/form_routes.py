@@ -1,8 +1,10 @@
 
 from flask import Blueprint, request, jsonify
 from flask_login import current_user, login_required
-from app.models import Form, db
+from app.models import Form, db, Job  
 import re 
+import logging
+# re ==https://docs.python.org/3/library/re.html
 
 form_routes = Blueprint('forms', __name__)
 
@@ -27,19 +29,19 @@ def get_all_forms():
 @form_routes.route('/jobs/<int:jobId>/forms', methods=['GET'])
 @login_required
 def get_job_forms(jobId):
-    print("hello") # REMOVE MEEEEEEEEE <<=================
-    job = Job.query.filter_by(id=jobId, userId=current_user.id).first()
+    logging.info(f"User {current_user.id} requesting forms for job {jobId} <<=================") # REMOVE ME PLEASEEEEEEEEE
+    job = Job.query.filter_by(id=jobId, creatorId=current_user.id).first()
+    
     if not job:
         return jsonify({"message": "Job couldn't be found"}), 404
 
+  
     forms = job.forms  
-    return jsonify([form.to_dict() for form in forms]), 200
 
 
+    forms_data = [{"id": form.id, "name": form.name, "link": form.link} for form in forms]
 
-
-
-
+    return jsonify({"Forms": forms_data}), 200
 
 
 
@@ -50,7 +52,7 @@ def get_job_forms(jobId):
 def create_form():
     data = request.get_json()
 
-    # Validate name and link
+
     if not all(k in data for k in ("name", "link")):
         return jsonify({"error": "Missing required data"}), 400
     if not re.match(r'^[a-zA-Z\s]+$', data['name']):
@@ -77,7 +79,6 @@ def edit_form(formId):
 
     data = request.get_json()
 
-    # Validate name and link
     if 'name' in data and not re.match(r'^[a-zA-Z\s]+$', data['name']):
         return jsonify({"error": "Name must contain only letters and spaces"}), 400
     if 'link' in data and not re.match(r'^https?://.+', data['link']):

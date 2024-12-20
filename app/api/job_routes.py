@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
-from app.models import Job, db
+from app.models import Job, db, job_users
 from flask_login import current_user, login_required
+from sqlalchemy import select, insert
 
 job_routes = Blueprint('jobs', __name__)
 
@@ -19,16 +20,45 @@ def create_job():
         return jsonify({"error": "Missing required information"}), 400
 
     new_job = Job(
-        name=data['name'],
-        location=data['location'],
-        employer=data['employer'],
-        pay=data['pay'],
+        name=data.get('name'),
+        location=data.get('location'),
+        employer=data.get('employer'),
+        pay=data.get('pay'),
         creatorId=current_user.id
     )
 
     db.session.add(new_job)
     db.session.commit()
     return jsonify(new_job.to_dict()), 200
+
+# Create a relation between a job and user
+@job_routes.route('/<int:job_id>/add', methods=['POST'])
+@login_required
+def add_job_to_user(job_id):
+    job = Job.query.get(job_id)
+    if not job:
+        return jsonify({"message": "Job not found"}), 404
+    
+    if job.creatorId == current_user.id:
+        return jsonify({"message": "User is already the creator of the job"}), 400
+    
+    print(insert(job_users).values(user_id=current_user.id, job_id=job_id))
+
+    print(select(job_users))
+
+    return jsonify('add relation route test')
+
+# Delete a relation between a job and user
+@job_routes.route('/<int:job_id>/remove', methods=['DELETE'])
+@login_required
+def remove_job_to_user(job_id):
+    job = Job.query.get(job_id)
+    if not job:
+        return jsonify({"message": "Job not found"}), 404
+    
+
+
+    return jsonify('remove relation route test')
 
 # Get Current User's Jobs
 @job_routes.route('/current', methods=['GET'])
