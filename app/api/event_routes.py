@@ -37,7 +37,7 @@ def validate_event(data, eventId=None):
 @login_required
 def get_schedule():
     schedule = Event.query.filter_by(userId=current_user.id).all()
-    return jsonify([event.to_dict() for event in schedule])
+    return jsonify([event.to_dict() for event in schedule]), 200
 
 # Creates a new event in the database
 @event_routes.route('/new', methods=['POST'])

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import Job, db, user_jobs
+from app.models import Job, db, user_jobs, User
 from flask_login import current_user, login_required
 
 job_routes = Blueprint('jobs', __name__)
@@ -28,7 +28,7 @@ def create_job():
 
     db.session.add(new_job)
     db.session.commit()
-    return jsonify(new_job.to_dict()), 200
+    return jsonify(new_job.to_dict()), 201
 
 # Create a relation between a job and user
 @job_routes.route('/<int:job_id>/add', methods=['POST'])
@@ -47,7 +47,7 @@ def add_job_to_user(job_id):
     db.session.execute(db.insert(user_jobs).values(user_id=current_user.id, job_id=job_id))
     db.session.commit()
 
-    return jsonify(f'Job {job_id} added to User {current_user.id}')
+    return jsonify(f'Job {job_id} added to User {current_user.id}'), 201
 
 # Delete a relation between a job and user
 @job_routes.route('/<int:job_id>/remove', methods=['DELETE'])
@@ -67,32 +67,28 @@ def remove_job_to_user(job_id):
     
 
 # Get Current User's Jobs
-@job_routes.route('/current', methods=['GET'])
+@job_routes.route('/session', methods=['GET'])
 @login_required
 def get_user_jobs():
-    jobs = Job.query.filter_by(creatorId=current_user.id).all()
-    jobs_data = []
-    for job in jobs:
-        job_info = {
-            "id": job.id,
-            "name": job.name,
-            "location": job.location,
-            "employer": job.employer,
-            "pay": job.pay
-        }
-        jobs_data.append(job_info)
+    jobs = Job.query.filter_by(creatorId=current_user.id).all() + Job.query.join(user_jobs, Job.id == user_jobs.c.job_id).join(User, user_jobs.c.user_id == User.id).filter_by(id=current_user.id).all()
 
-    return jsonify({"Jobs": jobs_data}), 200
+    return jsonify([job.to_dict() for job in jobs]), 200
+
 
 # Get Job Details by ID 
 @job_routes.route('/<int:job_id>', methods=['GET'])
 @login_required
 def get_job_by_id(job_id):
     job = Job.query.get(job_id)
-    if job:
-        return jsonify(job.to_dict())
-    else:
+
+    if not job:
         return jsonify({"message": "Job couldn't be found"}), 404
+    
+    if job.creatorId != current_user.id:
+        return jsonify({"error": "Unauthorized access"}), 403
+    
+    return jsonify(job.to_dict())
+
 
 # Edit a Job
 @job_routes.route('/<int:job_id>', methods=['PUT'])
