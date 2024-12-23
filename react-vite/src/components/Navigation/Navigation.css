@@ -1,40 +1,40 @@
-/* src/components/Navigation/Navigation.css */
+
 
 ul {
   list-style-type: none; /* Remove default list styling */
-  padding: 0; /* Remove default padding */
-  margin: 0; /* Remove default margin */
-  display: flex; /* Use flexbox for horizontal layout */
-  justify-content: center; /* Center the navigation items */
-  background-color: #333; /* Background color for the navigation */
+  padding: 0; 
+  margin: 0;
+  display: flex; 
+  justify-content: center;
+  background-color: #333;
 }
 
 li {
-  margin: 0 15px; /* Space between navigation items */
+  margin: 0 15px; 
 }
 
 a {
-  text-decoration: none; /* Remove underline from links */
-  color: black; /* Text color for links */
-  padding: 10px 15px; /* Padding around links */
-  border-radius: 5px; /* Rounded corners */
-  transition: background-color 0.3s; /* Smooth transition for hover effect */
+  text-decoration: none; 
+  color: black;
+  padding: 10px 15px; 
+  border-radius: 5px;
+  transition: background-color 0.3s; 
 }
 
 a:hover {
-  background-color: #555; /* Background color on hover */
+  background-color: #555;
 }
 
 button {
-  background-color: #4CAF50; /* Green background for the button */
-  color: white; /* Text color for the button */
-  border: none; /* Remove border */
-  padding: 10px 15px; /* Padding around the button */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Change cursor to pointer */
-  transition: background-color 0.3s; /* Smooth transition for hover effect */
+  background-color: #4CAF50; 
+  color: white; 
+  border: none; 
+  padding: 10px 15px; 
+  border-radius: 5px;
+  cursor: pointer; 
+  transition: background-color 0.3s; 
 }
 
 button:hover {
-  background-color: #45a049; /* Darker green on hover */
+  background-color: #45a049; 
 }
