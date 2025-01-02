@@ -1,44 +1,54 @@
+.form-modal {
+  background-color: #fff; /* White background for the modal */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  padding: 20px; /* Padding inside the modal */
+  max-width: 500px; /* Maximum width of the modal */
+  margin: 20px auto; /* Center the modal */
+}
 
-form {
-    display: flex;
-    flex-direction: column; 
-    gap: 15px;
-  }
-  
+.form-modal-title {
+  text-align: center; /* Center the title */
+  color: #333; /* Dark text color */
+}
 
-  .input-container {
-    display: flex; 
-    justify-content: space-between;
-    align-items: center; 
-  }
-  
- 
-  input[type="text"] {
-    width: 48%; 
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
+.form-modal-form {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack elements vertically */
+}
 
-  p {
-    color: red;
-    font-size: 14px;
-    margin: 0;
-  }
-  
+.form-modal-label {
+  margin-bottom: 8px; /* Space below labels */
+  font-weight: bold; /* Bold labels */
+  color: #555; /* Darker color for labels */
+}
 
-  button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  button:hover {
-    background-color: #218838;
-  }
+.form-modal-input {
+  padding: 10px; /* Padding inside input fields */
+  margin-bottom: 15px; /* Space below input fields */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Font size for inputs */
+}
+
+.error-message {
+  color: red; /* Red color for error messages */
+  font-size: 14px; /* Font size for error messages */
+  margin: 0 0 10px 0; /* Margin below error messages */
+}
+
+/* Button Styles */
+.form-modal-button {
+  background-color: #28a745; /* Green background for the button */
+  color: white; /* White text color */
+  border: none; /* Remove border */
+  padding: 10px 15px; /* Padding for the button */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Font size for button */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.form-modal-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}

@@ -1,33 +1,41 @@
-// src/components/Navigation/Navigation.jsx
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
-import { useModal } from "../../context/Modal"; // Import useModal
-import FormModal from "../FormModal/FormModal"; // Ensure this import is correct
+import { useModal } from "../../context/Modal"; 
+import FormModal from "../FormModal/FormModal"; 
+import logo from '../../components/Navigation/coding.png'; // Your icon image
 import "./Navigation.css";
 
 function Navigation() {
-  const { setModalContent, openModal } = useModal(); // Get setModalContent and openModal
+  const { setModalContent, openModal } = useModal(); 
 
   const handleOpenFormModal = () => {
-    setModalContent(<FormModal />); // Set the content of the modal to FormModal
-    openModal(); // Open the modal
+    setModalContent(<FormModal />); 
+    openModal(); 
   };
 
   return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      <li>
-        <NavLink to="/user-forms">Your Forms</NavLink>
-      </li>
-      <li>
-        <button onClick={handleOpenFormModal}>Open Form Modal</button> {/* Open modal on click */}
-      </li>
-      <li>
+    <div className="navigation-container">
+      <NavLink to="/" className="nav-logo-link">
+        <img src={logo} alt="Logo" className="nav-logo" />
+      </NavLink>
+      <ul className="navigation-list"> 
+        <li>
+          <NavLink to="/user-forms" className="nav-button">Form</NavLink>
+        </li>
+        <li>
+          <NavLink to="/jobs/1/forms" className="nav-button">Jobs & Form</NavLink> {/* Example jobId */}
+        </li>
+        <li>
+          <NavLink to="/jobs/1/forms" className="nav-button">Jobs</NavLink>
+        </li>
+        <li>
+          <NavLink to="/jobs/1/forms" className="nav-button">Contact</NavLink>
+        </li>
+      </ul>
+      <div className="profile-button">
         <ProfileButton />
-      </li>
-    </ul>
+      </div>
+    </div>
   );
 }
 
