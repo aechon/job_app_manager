@@ -1,50 +1,52 @@
+// src/components/FormModal/FormModal.jsx
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createForm } from "../../redux/form"; 
+import { useModal } from "../../context/Modal";
+import "./FormModal.css";
 
-import { useDispatch, useSelector } from "react-redux";
-import { thunkCreateForm, thunkEditForm } from "../../redux/session"; // Ensure this path is correct
-// import { useDispatch, useSelector } from "react-redux";
-// import { thunkCreateForm, thunkEditForm } from "../../redux/session"; // Adjust the import based on your redux setup
-import { Navigate } from "react-router-dom";
-import "./FormModal.css"; 
-
-
-
-
-
-function FormModal({ formData, closeModal }) {
+function FormModal({ onFormCreated }) { 
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
-  const [name, setName] = useState(formData ? formData.name : "");
-  const [link, setLink] = useState(formData ? formData.link : "");
+  const [name, setName] = useState("");
+  const [link, setLink] = useState("");
   const [errors, setErrors] = useState({});
-
-  if (!sessionUser) return <Navigate to="/login" replace={true} />;
+  const { closeModal } = useModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const formPayload = { name, link };
-    let serverResponse;
 
-    if (formData) {
-      // If formData exists, we are editing an existing form
-      serverResponse = await dispatch(thunkEditForm(formData.id, formPayload));
-    } else {
-      // Otherwise, we are creating a new form
-      serverResponse = await dispatch(thunkCreateForm(formPayload));
+    // Validate input
+    const validationErrors = {};
+    if (!/^[a-zA-Z\s]+$/.test(name)) {
+      validationErrors.name = "Name must contain only letters and spaces.";
     }
+    if (!/^https?:\/\/.+/.test(link)) {
+      validationErrors.link = "Invalid link format.";
+    }
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    const serverResponse = await dispatch(
+      createForm({
+        name,
+        link,
+      })
+    );
 
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
+      onFormCreated(); 
       closeModal(); 
     }
   };
 
   return (
-    <div className="form-modal">
-      <h1>{formData ? "Edit Form" : "Create Form"}</h1>
-      {errors.length > 0 && errors.map((message) => <p key={message}>{message}</p>)}
+    <div>
+      <h1>Create New Form</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Name
@@ -59,16 +61,16 @@ function FormModal({ formData, closeModal }) {
         <label>
           Link
           <input
-            type="url"
+            type="text"
             value={link}
             onChange={(e) => setLink(e.target.value)}
             required
           />
         </label>
         {errors.link && <p>{errors.link}</p>}
-        <button type="submit">{formData ? "Update Form" : "Create Form"}</button>
-        <button type="button" onClick={closeModal}>Cancel</button>
+        <button type="submit">Create Form</button>
       </form>
+      <button onClick={closeModal}>Close</button> {/* Close button */}
     </div>
   );
 }
