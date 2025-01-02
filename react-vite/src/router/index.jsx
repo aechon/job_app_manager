@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import FormModal from '../components/FormModal/FormModal'; 
+import EventCalendar from '../components/EventCalendar';
 import Layout from './Layout';
 import UserForms from '../components/FormModal/UserForms';
 import FormsList from '../components/FormModal/FormList';
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
         path: "/",
         element: <h1>Welcome!</h1>,
       },
+      // Deprecated since we're using the modal versions instead
       {
         path: "login",
         element: <LoginFormPage />,
@@ -44,6 +46,12 @@ export const router = createBrowserRouter([
       {
         path: "contacts", // Adjust this path as necessary
         element: <Contacts />,
+      },
+
+      // route for testing <------ REMOVE LATER
+      {
+        path: "calendar",
+        element: <EventCalendar />,
       },
     ],
   },

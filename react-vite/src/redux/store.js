@@ -8,11 +8,13 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import formReducer from "./form"; // Import the form reducer
 import contactReducer from "./contact";
+import eventReducer from "./event";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   form: formReducer, // Add the form reducer here
-  contact: contactReducer
+  contact: contactReducer,
+  event: eventReducer
 });
 
 let enhancer;

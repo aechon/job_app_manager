@@ -14,7 +14,11 @@ export default defineConfig((mode) => ({
   server: {
     open: true,
     proxy: {
+<<<<<<< HEAD
       "/api": "http://127.0.0.1:8000", // Corrected to 127.0.0.1
+=======
+      "/api": "http://127.0.0.1:8000",
+>>>>>>> event-components
     },
   },
 }));
