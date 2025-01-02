@@ -1,17 +1,9 @@
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
-import { useModal } from "../../context/Modal"; 
-import FormModal from "../FormModal/FormModal"; 
 import logo from '../../components/Navigation/coding.png'; // Your icon image
 import "./Navigation.css";
 
 function Navigation() {
-  const { setModalContent, openModal } = useModal(); 
-
-  const handleOpenFormModal = () => {
-    setModalContent(<FormModal />); 
-    openModal(); 
-  };
 
   return (
     <div className="navigation-container">
@@ -20,16 +12,16 @@ function Navigation() {
       </NavLink>
       <ul className="navigation-list"> 
         <li>
-          <NavLink to="/user-forms" className="nav-button">Form</NavLink>
-        </li>
-        <li>
-          <NavLink to="/jobs/1/forms" className="nav-button">Jobs & Form</NavLink> {/* Example jobId */}
-        </li>
-        <li>
           <NavLink to="/jobs/1/forms" className="nav-button">Jobs</NavLink>
         </li>
         <li>
-          <NavLink to="/jobs/1/forms" className="nav-button">Contact</NavLink>
+          <NavLink to="/jobs/1/forms" className="nav-button">Contacts</NavLink>
+        </li>
+        <li>
+          <NavLink to="/user-forms" className="nav-button">Forms</NavLink>
+        </li>
+        <li>
+          <NavLink to="/calendar" className="nav-button">Calendar</NavLink>
         </li>
       </ul>
       <div className="profile-button">

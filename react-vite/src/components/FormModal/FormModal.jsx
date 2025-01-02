@@ -4,7 +4,7 @@ import { createForm } from "../../redux/form";
 import { useModal } from "../../context/Modal";
 import "./FormModal.css";
 
-function FormModal({ onFormCreated }) { 
+function FormModal() { 
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
@@ -43,7 +43,6 @@ function FormModal({ onFormCreated }) {
       setErrors(serverResponse);
     } else {
       // If the form is created successfully
-      onFormCreated(); // Call the callback to notify the parent component
       closeModal(); // Close the modal
     }  
   };

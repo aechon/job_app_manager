@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteForm, editForm, fetchUserForms } from '../../redux/form'; 
 import './FormsList.css'; 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useModal } from "../../context/Modal"; 
 import FormModal from "../FormModal/FormModal"; 
 
@@ -11,7 +11,7 @@ const FormsList = () => {
   const dispatch = useDispatch();
   const [editingForm, setEditingForm] = useState(null);
   const [formData, setFormData] = useState({ name: '', link: '' });
-  const { setModalContent, openModal } = useModal(); // Get modal functions
+  const { setModalContent } = useModal(); // Get modal functions
 
   useEffect(() => {
     dispatch(fetchUserForms()); // Fetch forms fixed reload issue
@@ -39,7 +39,6 @@ const FormsList = () => {
 
   const handleOpenFormModal = () => {
     setModalContent(<FormModal />); 
-    openModal(); 
   };
 
   return (
