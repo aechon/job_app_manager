@@ -1,4 +1,3 @@
-// src/components/FormModal/FormModal.jsx
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createForm } from "../../redux/form"; 
@@ -26,9 +25,10 @@ function FormModal({ onFormCreated }) {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      return;
+      return; 
     }
 
+    // Dispatch the createForm action
     const serverResponse = await dispatch(
       createForm({
         name,
@@ -36,41 +36,46 @@ function FormModal({ onFormCreated }) {
       })
     );
 
+    console.log("Server Response:", serverResponse); // Debugging line
+
     if (serverResponse) {
+      // If there's an error from the server, set the errors
       setErrors(serverResponse);
     } else {
-      onFormCreated(); 
-      closeModal(); 
-    }
+      // If the form is created successfully
+      onFormCreated(); // Call the callback to notify the parent component
+      closeModal(); // Close the modal
+    }  
   };
 
   return (
-    <div>
-      <h1>Create New Form</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className="form-modal">
+      <h1 className="form-modal-title">Create New Form</h1>
+      <form className="form-modal-form" onSubmit={handleSubmit}>
+        <label className="form-modal-label">
           Name
           <input
+            className="form-modal-input"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
         </label>
-        {errors.name && <p>{errors.name}</p>}
-        <label>
+        {errors.name && <p className="error-message">{errors.name}</p>}
+        <label className="form-modal-label">
           Link
           <input
+            className="form-modal-input"
             type="text"
             value={link}
             onChange={(e) => setLink(e.target.value)}
             required
           />
         </label>
-        {errors.link && <p>{errors.link}</p>}
-        <button type="submit">Create Form</button>
+        {errors.link && <p className="error-message">{errors.link}</p>}
+        <button className="form-modal-button" type="submit">Create Form</button>
       </form>
-      <button onClick={closeModal}>Close</button> {/* Close button */}
     </div>
   );
 }

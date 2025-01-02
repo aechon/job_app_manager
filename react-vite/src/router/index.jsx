@@ -1,4 +1,4 @@
-
+// src/index.jsx
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
@@ -6,6 +6,7 @@ import FormModal from '../components/FormModal/FormModal';
 import Layout from './Layout';
 import UserForms from '../components/FormModal/UserForms';
 import FormsList from '../components/FormModal/FormList';
+import JobForm from '../components/FormModal/JobForm'
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: "forms-list", 
         element: <FormsList />,
+      },
+      {
+        path: "jobs/:jobId/forms", // Adjust this path as necessary
+        element: <JobForm />,
       },
     ],
   },

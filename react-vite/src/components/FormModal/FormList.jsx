@@ -1,15 +1,21 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteForm, editForm } from '../../redux/form'; 
+import { deleteForm, editForm, fetchUserForms } from '../../redux/form'; 
 import './FormsList.css'; 
-import React, { useState } from 'react';
-
-
+import React, { useState, useEffect } from 'react';
+import { useModal } from "../../context/Modal"; 
+import FormModal from "../FormModal/FormModal"; 
 
 const FormsList = () => {
   const userForms = useSelector((state) => state.form.userForms);
+  const user = useSelector((state) => state.session.user); // Assuming user info is stored here
   const dispatch = useDispatch();
   const [editingForm, setEditingForm] = useState(null);
   const [formData, setFormData] = useState({ name: '', link: '' });
+  const { setModalContent, openModal } = useModal(); // Get modal functions
+
+  useEffect(() => {
+    dispatch(fetchUserForms()); // Fetch forms fixed reload issue
+  }, [dispatch]);
 
   const handleDeleteForm = (formId) => {
     dispatch(deleteForm(formId));
@@ -31,43 +37,59 @@ const FormsList = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const handleOpenFormModal = () => {
+    setModalContent(<FormModal />); 
+    openModal(); 
+  };
+
   return (
     <div className="container">
-      <h1>Your Forms</h1>
+      <div className="create-form-container"> 
+        {user && ( 
+          <button onClick={handleOpenFormModal} className="create-form-button">Create Form</button>
+        )}
+      </div>
       {userForms.length === 0 ? (
-        <p>No forms found.</p>
+          <p className="centered-message">No forms found.</p>
       ) : (
         <div className="form-container">
           {userForms.map((form) => (
             <div className="form-item" key={form.id}>
               {editingForm === form.id ? (
                 <div>
+                  <label htmlFor={`name-${form.id}`}>Name:</label>
                   <input
                     type="text"
+                    id={`name-${form.id}`}
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Form Name"
                   />
+                  <label htmlFor={`link-${form.id}`}>Link:</label>
                   <input
                     type="text"
+                    id={`link-${form.id}`}
                     name="link"
                     value={formData.link}
                     onChange={handleChange}
                     placeholder="Form Link"
                   />
-                  <button onClick={handleSaveEdit}>Save</button>
+                  <button className="save-button" onClick={handleSaveEdit}>Save</button>
                 </div>
               ) : (
-                <div>
-                  <div className="form-name">{form.name}</div>
+                <div className="form-content">
+                  <div className="form-name">Name: {form.name}</div>
                   <div className="form-link">
+                    <span>Link: </span>
                     <a href={form.link} target="_blank" rel="noopener noreferrer">
                       {form.link}
                     </a>
                   </div>
-                  <button onClick={() => handleEditForm(form)}>Edit</button>
-                  <button onClick={() => handleDeleteForm(form.id)}>Delete</button>
+                  <div className="form-buttons">
+                    <button className="edit-button" onClick={() => handleEditForm(form)}>Edit</button>
+                    <button className="delete-button" onClick={() => handleDeleteForm(form.id)}>Delete</button>
+                  </div>
                 </div>
               )}
             </div>

@@ -1,0 +1,57 @@
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+}
+
+.popup {
+  background-color: white; 
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px; /* Set a fixed width for the popup */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+h2 {
+  color: black; /* Black font color for the heading */
+  margin-bottom: 15px; /* Space below the heading */
+}
+
+.content {
+  color: rgb(59, 8, 8);
+}
+
+.close {
+  cursor: pointer;
+  color: black; 
+  font-size: 20px;
+  float: right; 
+}
+
+.login-button, .signup-button {
+  background-color: transparent;
+  color: black; 
+  border: 2px solid black; 
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px; 
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+.login-button:hover, .signup-button:hover {
+  background-color: black; /* Change background color on hover */
+  color: white; /* Change text color on hover */
+}
+
+button:focus {
+  outline: none; /* Remove default outline on focus */
+}

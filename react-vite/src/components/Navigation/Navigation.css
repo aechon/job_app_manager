@@ -1,40 +1,71 @@
-
-
-ul {
-  list-style-type: none; /* Remove default list styling */
-  padding: 0; 
-  margin: 0;
+.navigation-container {
   display: flex; 
-  justify-content: center;
-  background-color: #333;
+  justify-content: space-between; 
+  align-items: center; 
+  background-color: #333; 
+  padding: 10px; 
 }
 
-li {
-  margin: 0 15px; 
+.navigation-list {
+  display: flex; 
+  justify-content: center; 
+  list-style-type: none; 
+  padding: 0; 
+  margin: 0; 
 }
 
-a {
-  text-decoration: none; 
-  color: black;
-  padding: 10px 15px; 
-  border-radius: 5px;
-  transition: background-color 0.3s; 
-}
-
-a:hover {
-  background-color: #555;
-}
-
-button {
-  background-color: #4CAF50; 
+.nav-button {
+  background-color: #007bff; 
   color: white; 
   border: none; 
   padding: 10px 15px; 
-  border-radius: 5px;
+  
   cursor: pointer; 
-  transition: background-color 0.3s; 
+  text-decoration: none; 
+  display: inline-block; 
+  margin: 0 10px; 
 }
 
-button:hover {
-  background-color: #45a049; 
+
+
+.profile-container {
+  margin-left: auto; 
 }
+.nav-logo {
+  width: 50px; 
+  height: auto; 
+  margin-right: 20px; 
+}
+.home-icon {
+  width: 20px; 
+  height: auto; 
+  margin-right: 5px; 
+  vertical-align: middle; 
+}
+
+.nav-button {
+  font-family: "Times New Roman", Times, serif;
+  color: white; 
+  background-color: transparent; 
+  border: 2px solid white; 
+  padding: 10px 15px; 
+ 
+  text-decoration: none; 
+  cursor: pointer; 
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
+
+.profile-button {
+    font-family: "Times New Roman", Times, serif; 
+    color: white; 
+    background-color: transparent;
+    border: 2px solid white; 
+    padding: 10px 15px; 
+    
+    text-decoration: none; 
+    cursor: pointer; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
