@@ -10,6 +10,14 @@ import FormsList from '../components/FormModal/FormList';
 import JobForm from '../components/FormModal/JobForm';
 import Contacts from '../components/Contacts/Contact-component'
 
+//imports for testing
+import OpenModalMenuItem from "../components/Navigation/OpenModalMenuItem";
+import NewEventModal from '../components/EventModal';
+let jobId = 1;
+let contacts = ['test'];
+// delete all these later
+
+
 export const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -52,6 +60,19 @@ export const router = createBrowserRouter([
       {
         path: "calendar",
         element: <EventCalendar />,
+      },
+      {
+        path: "test",
+        element: 
+        <div>
+          <h1>Test Page</h1>
+          <OpenModalMenuItem
+                    itemText="Add Interview"
+                    // onItemClick={closeModal}
+                    modalComponent={<NewEventModal jobId={jobId} contacts={contacts} />}
+                    className="new-event-button" 
+                  />
+        </div>,
       },
     ],
   },

@@ -6,48 +6,50 @@ from app.models import Contact, db
 contact_routes = Blueprint('contacts', __name__)
 
 def validate_phone(phone):
-    phone_regex = r"^\+?1?\d{9,15}$"
+    phone_regex = r"^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$"
     return re.match(phone_regex, phone)
-
 
 def validate_email(email):
     email_regex =  r"[^@]+@[^@]+\.[^@]+"
     return re.match(email_regex, email)
 
+# Get current user contacts
+@contact_routes.route('/session', methods=['GET'])
+@login_required
+def get_all_contact():
+    contacts = Contact.query.filter_by(userId=current_user.id).all()
+    return jsonify([contact.to_dict() for contact in contacts])
 
-@contact_routes.route('/contact', methods=['POST'])
+# Create a new contact
+@contact_routes.route('/new', methods=['POST'])
+@login_required
 def create_contact():
     data = request.get_json()
-    errors = []
-
-    # Ensure all required fields are provided
-    if not all(k in data for k in ("name")):
+    if not all(k in data for k in (["name"])):
         return jsonify({"error": "Missing required data"}), 400
-    
-    name = data["name"]
-    if len(name) > 50:
-        errors.append("name must be 50 characters or less")
-    
-    if data.get('company'):
-        company = data["company"]
-        if len(company) > 50:
-            errors.append("name must be 50 characters or less")
-    
-    if not validate_phone(data['phone']):
-        errors.append("invalid phone number")
-    
-    if not validate_email(data['email']):
-        errors.append("invalid email")
 
-        if errors:
-            return jsonify({"errors": errors}), 400 
+    errors = {}
+    if len(data.get('name')) > 50:
+        errors["name"] = "name must be 50 characters or less"
+
+    if len(data.get('company')) > 50:
+        errors["company"] = "name must be 50 characters or less"
+
+    if not validate_phone(data.get('phone')):
+        errors["phone"] = "invalid phone number"
+    
+    if not validate_email(data.get('email')):
+        errors["email"] = "invalid email"
+
+    if errors:
+        return jsonify({"errors": errors}), 400 
 
     new_contact = Contact(
-        name=name,
+        name=data.get('name'),
         phone=data.get('phone'),
         email=data.get('email'),
         company=data.get('company'),
-        userId=data.get('userId')
+        userId=current_user.id
     )
     db.session.add(new_contact)
     db.session.commit()
