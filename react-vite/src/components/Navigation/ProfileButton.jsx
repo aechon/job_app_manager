@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
@@ -12,6 +13,7 @@ function ProfileButton() {
   const [showModal, setShowModal] = useState(false);
   const user = useSelector((store) => store.session.user);
   const modalRef = useRef();
+  const navigate = useNavigate();
 
   const toggleModal = (e) => {
     e.stopPropagation(); // Prevent event bubbling
@@ -38,9 +40,10 @@ function ProfileButton() {
     e.preventDefault();
     dispatch(thunkLogout()).then(() => {
       closeModal();
-      setTimeout(() => {
-        window.location.reload(); // Refresh the page after a short delay
-      }, 100); // Delay of 100 milliseconds
+      navigate('/');
+      // setTimeout(() => {
+      //   window.location.reload(); // Refresh the page after a short delay
+      // }, 100); // Delay of 100 milliseconds
     });
   };
   return (
