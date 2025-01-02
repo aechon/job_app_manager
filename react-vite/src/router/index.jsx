@@ -6,7 +6,8 @@ import FormModal from '../components/FormModal/FormModal';
 import Layout from './Layout';
 import UserForms from '../components/FormModal/UserForms';
 import FormsList from '../components/FormModal/FormList';
-import JobForm from '../components/FormModal/JobForm'
+import JobForm from '../components/FormModal/JobForm';
+import Contacts from '../components/Contacts/Contact-component'
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
       {
         path: "jobs/:jobId/forms", // Adjust this path as necessary
         element: <JobForm />,
+      },
+      {
+        path: "contacts", // Adjust this path as necessary
+        element: <Contacts />,
       },
     ],
   },
