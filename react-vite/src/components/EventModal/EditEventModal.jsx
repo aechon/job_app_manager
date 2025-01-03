@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { DatePicker, TimePicker } from "antd";
 import { editEvent } from "../../redux/event";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'
 import "./EventModal.css";
+import { fetchJobDetails } from "../../redux/job";
 
-function EditEventModal({eventId, jobId, contacts = [], initialStart = dayjs(), initialDuration = 60, initialType = '', initialInterviewer = '', initialContactId = null}) { 
+function EditEventModal({eventId, jobId, initialStart = dayjs(), initialDuration = 60, initialType = '', initialInterviewer = '', initialContactId = ''}) { 
   
   const dispatch = useDispatch();
-//   const contacts = useSelector((state) => state.job.job.contacts);
+  const jobDetails = useSelector((state) => state.job.jobDetails);
   const [errors, setErrors] = useState({});
+  const [contacts, setContacts] = useState([]);
   const [date, setDate] = useState(initialStart);
   const [time, setTime] = useState(initialStart);
   const [duration, setDuration] = useState(initialDuration);
@@ -21,9 +23,13 @@ function EditEventModal({eventId, jobId, contacts = [], initialStart = dayjs(), 
   const [disable, setDisable] = useState(true);
   const { closeModal } = useModal();
 
-//   useEffect(() => {
-//       dispatch(fetchJobDetails(jobId));
-//   }, [dispatch, jobId]);
+  useEffect(() => {
+    dispatch(fetchJobDetails(jobId));
+  }, [dispatch, jobId]);
+
+  useEffect(() => {
+    if (jobDetails) setContacts(jobDetails.Contacts)
+  }, [jobDetails])
 
   useEffect(() => {
     if (date === null || date.isBefore(dayjs()) || time === null || duration <= 0 || interviewer.length > 50) setDisable(true);
@@ -37,7 +43,7 @@ function EditEventModal({eventId, jobId, contacts = [], initialStart = dayjs(), 
     dayjs.extend(utc);
     const start = localStart.utc().format('YYYY-MM-DD HH:mm:ss');
 
-    // Dispatch the createEvent action
+    // Dispatch the editEvent action
     const serverResponse = await dispatch(
       editEvent({
         start,
@@ -60,7 +66,9 @@ function EditEventModal({eventId, jobId, contacts = [], initialStart = dayjs(), 
     }  
   };
 
-  if (contacts.length === 0) contacts = null;
+  if (contacts) {
+    if (contacts.length === 0) setContacts(null);
+  }
   
   return (
     <div className="event-modal">

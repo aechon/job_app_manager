@@ -3,6 +3,7 @@ const SET_EVENT_ERRORS = 'SET_EVENT_ERRORS';
 const ADD_EVENT = 'ADD_EVENT';
 const UPDATE_EVENT = 'UPDATE_EVENT';
 const GET_EVENT_DETAILS = 'GET_EVENT_DETAILS';
+const DELETE_EVENT = 'DELETE_EVENT';
 
 // Action creators
 const getUserEvents = schedule => ({
@@ -29,6 +30,11 @@ const getEventDetails = (event) => ({
   type: GET_EVENT_DETAILS,
   event,
 })
+
+const deleteEvent = (event) => ({
+  type: DELETE_EVENT,
+  event,
+});
 
 // Thunk Action Creators
 export const fetchUserSchedule = () => async (dispatch) => {
@@ -94,6 +100,20 @@ export const editEvent = (eventData, id) => async (dispatch) => {
   }
 }
 
+export const removeEvent = (id) => async (dispatch) => {
+  const response = await fetch(`/api/schedule/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (response.ok) {
+    dispatch(deleteEvent(id)); 
+  } else {
+    const errorData = await response.json();
+    console.error("Error deleting event:", errorData);
+
+  }
+};
+
 export const fetchEventDetails = (id) => async (dispatch) => {
   try {
       const response = await fetch(`/api/schedule/${id}`, {
@@ -143,6 +163,11 @@ const eventReducer = (state = initialState, action) => {
       event: action.event
     };
     case GET_EVENT_DETAILS:
+    return {
+      ...state,
+      event: action.event
+    };
+    case DELETE_EVENT:
     return {
       ...state,
       event: action.event

@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { DatePicker, TimePicker } from "antd";
 import { createEvent } from "../../redux/event";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'
 import "./EventModal.css";
+import { fetchJobDetails } from "../../redux/job";
 
-function NewEventModal({jobId, contacts = []}) { 
+function NewEventModal({jobId}) { 
   const dispatch = useDispatch();
+  const jobDetails = useSelector((state) => state.job.jobDetails);
   const [errors, setErrors] = useState({});
+  const [contacts, setContacts] = useState([]);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
   const [duration, setDuration] = useState(30);
@@ -23,6 +26,14 @@ function NewEventModal({jobId, contacts = []}) {
     if (date === null || date.isBefore(dayjs()) || time === null || duration <= 0 || interviewer.length > 50) setDisable(true);
     else setDisable(false);
   }, [date, time, duration, interviewer])
+
+  useEffect(() => {
+    dispatch(fetchJobDetails(jobId));
+  }, [dispatch, jobId]);
+
+  useEffect(() => {
+    if (jobDetails) setContacts(jobDetails.Contacts)
+  }, [jobDetails])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,7 +66,9 @@ function NewEventModal({jobId, contacts = []}) {
     }  
   };
 
-  if (contacts.length === 0) contacts = null;
+  if (contacts) {
+    if (contacts.length === 0) setContacts(null);
+  }
   
   return (
     <div className="event-modal">

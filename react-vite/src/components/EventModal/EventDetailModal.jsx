@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { DatePicker, TimePicker } from "antd";
-import { fetchEventDetails } from "../../redux/event";
+import { fetchEventDetails, removeEvent } from "../../redux/event";
 import dayjs from 'dayjs';
 import "./EventModal.css";
+import EditEventModal from "./EditEventModal";
 
 function EventDetailModal({eventId}) { 
   const dispatch = useDispatch();
   const event = useSelector((state) => state.event.event);
+  const error = useSelector((state) => state.event.errors);
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(error);
+  const { setModalContent } = useModal();
+  const [disable, setDisable] = useState(false);
   const { closeModal } = useModal();
 
   // fetch event details
@@ -18,24 +22,22 @@ function EventDetailModal({eventId}) {
     dispatch(fetchEventDetails(eventId));
   }, [dispatch, eventId]);
 
-  let start = null;
-  if (event) start = dayjs(event.start)
+  useEffect(() => {
+    setErrors(error);
+  }, [error]);
 
-  console.log(event);
+  useEffect(() => {
+    if (Object.keys(errors).length != 0) setDisable(true);
+  }, [errors]);
+  
+  let start = null;
+  if (event) start = dayjs(event.start);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Dispatch the delete action
-    const serverResponse = await dispatch(
-    //   createEvent({
-    //     start,
-    //     duration,
-    //     type,
-    //     interviewer,
-    //     jobId,
-    //   })
-    );
+    const serverResponse = await dispatch(removeEvent(eventId));
 
     console.log("Server Response:", serverResponse); // Debugging line
 
@@ -49,6 +51,17 @@ function EventDetailModal({eventId}) {
     }  
   };
   
+  const openEditModal = () => {
+    setModalContent(<EditEventModal
+        eventId={eventId}
+        jobId={event.jobId}
+        initialStart={start}
+        initialDuration={event.duration}
+        initialType={event.type}
+        initialInterviewer={event.interviewer}
+        initialContactId={event.contactId} />); 
+  };
+
   return (
     <div className="event-modal">
       <h1 className="event-modal-title">Interview Details</h1>
@@ -110,8 +123,8 @@ function EventDetailModal({eventId}) {
           <></>
         )}
         {errors.message && <p className="error-message">{errors.message}</p>}
-        {/* <button className="event-modal-button" >Edit Interview</button> */}
-        <button className="event-modal-button-delete" type="submit" >Delete Interview</button>
+        <button className="event-modal-button" disabled={disable} onClick={() => openEditModal()} >Edit Interview</button>
+        <button className="event-modal-button-delete" disabled={disable} type="submit" >Delete Interview</button>
       </form>
     </div>
   );

@@ -74,6 +74,10 @@
   background-color: red; /* Darker green on hover */
 }
 
+.event-modal-button-delete:disabled {
+  background-color: darkgray; /* Darker green on hover */
+}
+
 .event-modal-span {
   margin-bottom: 15px;
 }

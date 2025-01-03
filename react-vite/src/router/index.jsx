@@ -13,10 +13,9 @@ import JobDetails from '../components/JobDetails/JobDetails';
 
 //imports for testing
 import OpenModalMenuItem from "../components/Navigation/OpenModalMenuItem";
-import { NewEventModal, EditEventModal, EventDetailModal } from '../components/EventModal';
-let jobId = 1;
-let eventId = 26;
-let contacts = [{name: 'test', id: 1} , {name: 'test2', id: 2}, {name: 'test3', id: 4}];
+import { NewEventModal, EventDetailModal } from '../components/EventModal';
+let jobId = 7;
+let eventId = 25;
 // delete all these later
 
 
@@ -61,12 +60,12 @@ export const router = createBrowserRouter([
         path: "contacts",
         element: <Contacts />,
       },
-
-      // route for testing <------ REMOVE LATER
       {
         path: "calendar",
         element: <EventCalendar />,
       },
+      
+      // route for testing <------ REMOVE LATER     
       {
         path: "test",
         element: 
@@ -75,16 +74,7 @@ export const router = createBrowserRouter([
           <OpenModalMenuItem
                     itemText="Add Interview"
                     // onItemClick={closeModal}
-                    modalComponent={<NewEventModal jobId={jobId} contacts={contacts} />}
-                    className="new-event-button" 
-                  />
-          <OpenModalMenuItem
-                    itemText="Edit Interview"
-                    // onItemClick={closeModal}
-                    modalComponent={<EditEventModal 
-                      eventId={eventId} 
-                      jobId={jobId} 
-                      contacts={contacts} />}
+                    modalComponent={<NewEventModal jobId={jobId} />}
                     className="new-event-button" 
                   />
             <OpenModalMenuItem
