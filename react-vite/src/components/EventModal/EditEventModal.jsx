@@ -2,30 +2,26 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { DatePicker, TimePicker } from "antd";
-import { createEvent } from "../../redux/event";
+import { editEvent } from "../../redux/event";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'
 import "./EventModal.css";
 import { fetchJobDetails } from "../../redux/job";
 
-function NewEventModal({jobId}) { 
+function EditEventModal({eventId, jobId, initialStart = dayjs(), initialDuration = 60, initialType = '', initialInterviewer = '', initialContactId = ''}) { 
+  
   const dispatch = useDispatch();
   const jobDetails = useSelector((state) => state.job.jobDetails);
   const [errors, setErrors] = useState({});
   const [contacts, setContacts] = useState([]);
-  const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
-  const [duration, setDuration] = useState(30);
-  const [type, setType] = useState('');
-  const [interviewer, setInterviewer] = useState('');
-  const [contactId, setContactId] = useState();
+  const [date, setDate] = useState(initialStart);
+  const [time, setTime] = useState(initialStart);
+  const [duration, setDuration] = useState(initialDuration);
+  const [type, setType] = useState(initialType);
+  const [interviewer, setInterviewer] = useState(initialInterviewer);
+  const [contactId, setContactId] = useState(initialContactId);
   const [disable, setDisable] = useState(true);
   const { closeModal } = useModal();
-
-  useEffect(() => {
-    if (date === null || date.isBefore(dayjs()) || time === null || duration <= 0 || interviewer.length > 50) setDisable(true);
-    else setDisable(false);
-  }, [date, time, duration, interviewer])
 
   useEffect(() => {
     dispatch(fetchJobDetails(jobId));
@@ -35,6 +31,11 @@ function NewEventModal({jobId}) {
     if (jobDetails) setContacts(jobDetails.Contacts)
   }, [jobDetails])
 
+  useEffect(() => {
+    if (date === null || date.isBefore(dayjs()) || time === null || duration <= 0 || interviewer.length > 50) setDisable(true);
+    else setDisable(false);
+  }, [date, time, duration, interviewer])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -42,16 +43,15 @@ function NewEventModal({jobId}) {
     dayjs.extend(utc);
     const start = localStart.utc().format('YYYY-MM-DD HH:mm:ss');
 
-    // Dispatch the createEvent action
+    // Dispatch the editEvent action
     const serverResponse = await dispatch(
-      createEvent({
+      editEvent({
         start,
         duration,
         type,
         interviewer,
         jobId,
-        contactId
-      })
+      }, eventId)
     );
 
     // console.log("Server Response:", serverResponse); // Debugging line
@@ -72,14 +72,16 @@ function NewEventModal({jobId}) {
   
   return (
     <div className="event-modal">
-      <h1 className="event-modal-title">New Interview</h1>
+      <h1 className="event-modal-title">Update Interview</h1>
       <form className="event-modal-form" onSubmit={handleSubmit}>
         <label> Start Time</label>
         <span className="event-modal-span">
-          <DatePicker className="date-time-picker" 
+          <DatePicker className="date-time-picker"
+            value={date}
             onChange={(date) => setDate(date)}
           />
           <TimePicker format='HH:mm' className="date-time-picker"
+            value={time}
             onChange={(time) => setTime(time)}
           />
         </span>
@@ -134,10 +136,10 @@ function NewEventModal({jobId}) {
           <></>
         )}
         {errors.message && <p className="error-message">{errors.message}</p>}
-        <button className="event-modal-button" type="submit" disabled={disable}>Add to schedule</button>
+        <button className="event-modal-button" type="submit" disabled={disable}>Update</button>
       </form>
     </div>
   );
 }
 
-export default NewEventModal;
+export default EditEventModal;

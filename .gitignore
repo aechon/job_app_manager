@@ -4,11 +4,5 @@ __pycache__/
 .venv
 .DS_Store
 .vscode/
-<<<<<<< HEAD
-.pipfile.lock
-
-.package-lock.json
-=======
 Pipfile.lock
 package-lock.json
->>>>>>> event-components

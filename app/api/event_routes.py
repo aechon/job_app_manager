@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import Event, db, User, user_jobs, Job
+from app.models import Event, db, User, user_jobs, Job, Contact
 from flask_login import login_required, current_user
 from datetime import datetime, timedelta
 
@@ -79,8 +79,13 @@ def get_event_details(event_id):
     
     if event.userId != current_user.id:
         return jsonify({"error": "Unauthorized access"}), 403
+    
+    event = event.to_dict()
+    event_contact = Contact.query.get(event['contactId'])
+    if event_contact:
+        event.update({"Contact": event_contact.to_dict()})
 
-    return jsonify(event.to_dict())
+    return jsonify(event)
 
 # Updates and existing event by id
 @event_routes.route('/<int:event_id>', methods=['PUT'])
