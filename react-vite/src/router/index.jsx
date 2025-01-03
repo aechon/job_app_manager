@@ -14,7 +14,7 @@ import Contacts from '../components/Contacts/Contact-component'
 import OpenModalMenuItem from "../components/Navigation/OpenModalMenuItem";
 import NewEventModal from '../components/EventModal';
 let jobId = 1;
-let contacts = ['test'];
+let contacts = ['test', 'test1', 'test2'];
 // delete all these later
 
 

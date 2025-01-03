@@ -1,68 +1,95 @@
 .event-modal {
-    background-color: #fff; /* White background for the modal */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    padding: 20px; /* Padding inside the modal */
-    max-width: 500px; /* Maximum width of the modal */
-    margin: 20px auto; /* Center the modal */
-  }
+  background-color: #fff; /* White background for the modal */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  padding: 20px; /* Padding inside the modal */
+  max-width: 500px; /* Maximum width of the modal */
+  margin: 20px auto; /* Center the modal */
+}
   
-  .event-modal-title {
-    text-align: center; /* Center the title */
-    color: #333; /* Dark text color */
-  }
+.event-modal-title {
+  text-align: center; /* Center the title */
+  color: #333; /* Dark text color */
+}
   
-  .event-modal-form {
-    display: flex; /* Use flexbox for layout */
-    flex-direction: column; /* Stack elements vertically */
-  }
+.event-modal-form {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack elements vertically */
+}
   
-  .event-modal-label {
-    margin-bottom: 8px; /* Space below labels */
-    font-weight: bold; /* Bold labels */
-    color: #555; /* Darker color for labels */
-  }
+.event-modal-label {
+  margin-bottom: 8px; /* Space below labels */
+  font-weight: bold; /* Bold labels */
+  color: #555; /* Darker color for labels */
+}
   
-  .event-modal-input {
-    padding: 10px; /* Padding inside input fields */
-    margin-bottom: 15px; /* Space below input fields */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 4px; /* Rounded corners */
-    font-size: 16px; /* Font size for inputs */
-  }
+.event-modal-input {
+  padding: 10px; /* Padding inside input fields */
+  margin-bottom: 15px; /* Space below input fields */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Font size for inputs */
+}
   
-  .error-message {
-    color: red; /* Red color for error messages */
-    font-size: 14px; /* Font size for error messages */
-    margin: 0 0 10px 0; /* Margin below error messages */
-  }
+.error-message {
+  color: red; /* Red color for error messages */
+  font-size: 14px; /* Font size for error messages */
+  margin: 0 0 10px 0; /* Margin below error messages */
+}
   
-  /* Button Styles */
-  .event-modal-button {
-    background-color: #28a745; /* Green background for the button */
-    color: white; /* White text color */
-    border: none; /* Remove border */
-    padding: 10px 15px; /* Padding for the button */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Font size for button */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-  }
+/* Button Styles */
+.event-modal-button {
+  background-color: #28a745; /* Green background for the button */
+  color: white; /* White text color */
+  border: none; /* Remove border */
+  padding: 10px 15px; /* Padding for the button */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Font size for button */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
   
-  .event-modal-button:hover {
-    background-color: #218838; /* Darker green on hover */
-  }
+.event-modal-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
 
-  .event-modal-span {
-    margin-bottom: 15px;
-  }
+.event-modal-button:disabled {
+  background-color: darkgray; /* Darker green on hover */
+}
 
-  .event-modal-select {
-    padding: 10px; /* Padding inside input fields */
-    margin-bottom: 15px; /* Space below input fields */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 4px; /* Rounded corners */
-    font-size: 16px; /* Font size for inputs */
-    margin-left: 15px;
-    width: 80%;
-  }
+.event-modal-span {
+  margin-bottom: 15px;
+}
+
+.event-modal-type {
+  padding: 10px; /* Padding inside input fields */
+  margin-bottom: 15px; /* Space below input fields */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Font size for inputs */
+  margin-left: 16px;
+  width: 81%;
+}
+
+.event-modal-contacts {
+  padding: 10px; /* Padding inside input fields */
+  margin-bottom: 15px; /* Space below input fields */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Font size for inputs */
+  width: 96%;
+}
+
+.event-modal-input-number {
+  padding: 10px; /* Padding inside input fields */
+  margin-bottom: 15px; /* Space below input fields */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Font size for inputs */
+  margin-left: 16px;
+  width: 44%;
+}
+
+.date-time-picker {
+  margin-right: 15px;
+}
