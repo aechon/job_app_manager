@@ -1,4 +1,3 @@
-// src/index.jsx
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
@@ -8,16 +7,15 @@ import Layout from './Layout';
 import UserForms from '../components/FormModal/UserForms';
 import FormsList from '../components/FormModal/FormList';
 import JobForm from '../components/FormModal/JobForm';
-import Contacts from '../components/Contacts/Contact-component'
+import Contacts from '../components/Contacts/Contact-component';
 import JobDetails from '../components/JobDetails/JobDetails'; 
+import JobList from '../components/JobList/JobList'; 
 
-//imports for testing
+// Imports for testing
 import OpenModalMenuItem from "../components/Navigation/OpenModalMenuItem";
 import NewEventModal from '../components/EventModal';
 let jobId = 1;
 let contacts = ['test'];
-// delete all these later
-
 
 export const router = createBrowserRouter([
   {
@@ -25,9 +23,9 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Welcome!</h1>,
+        element: <JobList />, 
       },
-      // Deprecated since we're using the modal versions instead
+ 
       {
         path: "login",
         element: <LoginFormPage />,
@@ -60,8 +58,7 @@ export const router = createBrowserRouter([
         path: "contacts",
         element: <Contacts />,
       },
-
-      // route for testing <------ REMOVE LATER
+      // Route for testing <------ REMOVE LATER
       {
         path: "calendar",
         element: <EventCalendar />,
@@ -72,11 +69,10 @@ export const router = createBrowserRouter([
         <div>
           <h1>Test Page</h1>
           <OpenModalMenuItem
-                    itemText="Add Interview"
-                    // onItemClick={closeModal}
-                    modalComponent={<NewEventModal jobId={jobId} contacts={contacts} />}
-                    className="new-event-button" 
-                  />
+            itemText="Add Interview"
+            modalComponent={<NewEventModal jobId={jobId} contacts={contacts} />}
+            className="new-event-button" 
+          />
         </div>,
       },
     ],
