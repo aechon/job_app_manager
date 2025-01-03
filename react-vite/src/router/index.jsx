@@ -9,6 +9,7 @@ import UserForms from '../components/FormModal/UserForms';
 import FormsList from '../components/FormModal/FormList';
 import JobForm from '../components/FormModal/JobForm';
 import Contacts from '../components/Contacts/Contact-component'
+import JobDetails from '../components/JobDetails/JobDetails'; 
 
 //imports for testing
 import OpenModalMenuItem from "../components/Navigation/OpenModalMenuItem";
@@ -45,15 +46,19 @@ export const router = createBrowserRouter([
         element: <UserForms />,
       },
       {
+        path: "jobs/:jobId", 
+        element: <JobDetails />,
+      },
+      {
         path: "forms-list", 
         element: <FormsList />,
       },
       {
-        path: "jobs/:jobId/forms", // Adjust this path as necessary
+        path: "jobs/:jobId/forms", 
         element: <JobForm />,
       },
       {
-        path: "contacts", // Adjust this path as necessary
+        path: "contacts",
         element: <Contacts />,
       },
 
