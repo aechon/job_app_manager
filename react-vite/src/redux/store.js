@@ -9,12 +9,14 @@ import sessionReducer from "./session";
 import formReducer from "./form"; // Import the form reducer
 import contactReducer from "./contact";
 import eventReducer from "./event";
+import jobReducer  from "./job"; 
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  form: formReducer, // Add the form reducer here
+  form: formReducer,
   contact: contactReducer,
-  event: eventReducer
+  event: eventReducer,
+  job: jobReducer,
 });
 
 let enhancer;

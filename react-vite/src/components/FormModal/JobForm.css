@@ -1,0 +1,48 @@
+.job-forms-container {
+    padding: 20px; 
+    background-color: #f9f9f9; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 20px; 
+    text-align: center; 
+  }
+  
+  .job-forms-container h2 {
+    color: #333; 
+  }
+  
+  .job-forms-container ul {
+    list-style-type: none; 
+    padding: 0; 
+  }
+  
+  .form-item {
+    margin: 10px 0; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    background-color: #fff; 
+  }
+  
+  .form-details {
+    text-align: left; 
+  }
+  
+  .form-name, .form-userId {
+    margin: 5px 0; 
+  }
+  
+  .form-link {
+    display: flex; 
+    align-items: center; 
+  }
+  
+  .form-link a {
+    margin-left: 5px; 
+    color: #007BFF; 
+    text-decoration: none; 
+  }
+  
+  .form-link a:hover {
+    text-decoration: underline; 
+  }

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import './JobForm.css';
 
 const JobForm = () => {
-  const { jobId } = useParams(); // Get jobId from the URL parameters
+  const { jobId } = useParams(); 
   const [forms, setForms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,14 +20,14 @@ const JobForm = () => {
         });
 
         if (!response.ok) {
-          const errorData = await response.text(); // Log the error response
+          const errorData = await response.text(); 
           console.error('Error response:', errorData);
           throw new Error('An error occurred while fetching forms.');
         }
 
         const data = await response.json();
-        console.log('Fetched data:', data); // Log the fetched data
-        setForms(data); // Set forms directly to the fetched data
+        console.log('Fetched data:', data); 
+        setForms(data); 
       } catch (err) {
         setError(err.message || 'An error occurred while fetching forms.');
       } finally {
@@ -49,20 +50,23 @@ const JobForm = () => {
     <div className="job-forms-container">
       <h2>Related Forms for Job ID: {jobId}</h2>
       <div className="navigation-buttons">
+ 
       </div>
       {forms.length === 0 ? (
         <p>No forms found for this job.</p>
       ) : (
         <ul>
           {forms.map((form) => (
-            <li key={form.id}>
-              <div className="form-name">Name: {form.name}</div>
-              <div className="form-link">
-              <div className="form-userId">User ID: {form.userId}</div>
-                <span>Link: </span>
-                <a href={form.link} target="_blank" rel="noopener noreferrer">
-                  {form.link}
-                </a>
+            <li key={form.id} className="form-item">
+              <div className="form-details">
+                <div className="form-name">Name: {form.name}</div>
+                <div className="form-userId">User ID: {form.userId}</div>
+                <div className="form-link">
+                  <span>Link: </span>
+                  <a href={form.link} target="_blank" rel="noopener noreferrer">
+                    {form.link}
+                  </a>
+                </div>
               </div>
             </li>
           ))}
