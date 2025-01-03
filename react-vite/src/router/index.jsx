@@ -1,4 +1,3 @@
-// src/index.jsx
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
@@ -6,7 +5,8 @@ import FormModal from '../components/FormModal/FormModal';
 import Layout from './Layout';
 import UserForms from '../components/FormModal/UserForms';
 import FormsList from '../components/FormModal/FormList';
-import JobForm from '../components/FormModal/JobForm'
+import JobForm from '../components/FormModal/JobForm';
+import JobDetails from '../components/JobDetails/JobDetails'; 
 
 export const router = createBrowserRouter([
   {
@@ -37,8 +37,12 @@ export const router = createBrowserRouter([
         element: <FormsList />,
       },
       {
-        path: "jobs/:jobId/forms", // Adjust this path as necessary
+        path: "jobs/:jobId/forms", 
         element: <JobForm />,
+      },
+      {
+        path: "jobs/:jobId", 
+        element: <JobDetails />,
       },
     ],
   },

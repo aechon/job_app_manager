@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import { useModal } from "../../context/Modal"; 
 import FormModal from "../FormModal/FormModal"; 
-import logo from '../../components/Navigation/coding.png'; // Your icon image
+import logo from '../../components/Navigation/coding.png'; 
 import "./Navigation.css";
 
 function Navigation() {
@@ -23,10 +23,10 @@ function Navigation() {
           <NavLink to="/user-forms" className="nav-button">Form</NavLink>
         </li>
         <li>
-          <NavLink to="/jobs/1/forms" className="nav-button">Jobs & Form</NavLink> {/* Example jobId */}
+          <NavLink to="/jobs/1/forms" className="nav-button">Jobs & Form</NavLink> 
         </li>
         <li>
-          <NavLink to="/jobs/1/forms" className="nav-button">Jobs</NavLink>
+        <NavLink to="/jobs/1" className="nav-button">Job Details</NavLink>
         </li>
         <li>
           <NavLink to="/jobs/1/forms" className="nav-button">Contact</NavLink>

@@ -6,11 +6,13 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
-import formReducer from "./form"; // Import the form reducer
+import formReducer from "./form"; 
+import jobReducer  from "./job"; 
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  form: formReducer, // Add the form reducer here
+  form: formReducer, 
+  job: jobReducer,
 });
 
 let enhancer;
