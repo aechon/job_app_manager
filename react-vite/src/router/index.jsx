@@ -12,9 +12,9 @@ import Contacts from '../components/Contacts/Contact-component'
 
 //imports for testing
 import OpenModalMenuItem from "../components/Navigation/OpenModalMenuItem";
-import { NewEventModal, EditEventModal } from '../components/EventModal';
+import { NewEventModal, EditEventModal, EventDetailModal } from '../components/EventModal';
 let jobId = 1;
-let eventId = 1;
+let eventId = 26;
 let contacts = [{name: 'test', id: 1} , {name: 'test2', id: 2}, {name: 'test3', id: 4}];
 // delete all these later
 
@@ -80,6 +80,13 @@ export const router = createBrowserRouter([
                       eventId={eventId} 
                       jobId={jobId} 
                       contacts={contacts} />}
+                    className="new-event-button" 
+                  />
+            <OpenModalMenuItem
+                    itemText="Event Details"
+                    // onItemClick={closeModal}
+                    modalComponent={<EventDetailModal 
+                      eventId={eventId} />}
                     className="new-event-button" 
                   />
         </div>,

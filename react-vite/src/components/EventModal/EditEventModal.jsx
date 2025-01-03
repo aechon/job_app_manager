@@ -10,6 +10,7 @@ import "./EventModal.css";
 function EditEventModal({eventId, jobId, contacts = [], initialStart = dayjs(), initialDuration = 60, initialType = '', initialInterviewer = '', initialContactId = null}) { 
   
   const dispatch = useDispatch();
+//   const contacts = useSelector((state) => state.job.job.contacts);
   const [errors, setErrors] = useState({});
   const [date, setDate] = useState(initialStart);
   const [time, setTime] = useState(initialStart);
@@ -19,6 +20,10 @@ function EditEventModal({eventId, jobId, contacts = [], initialStart = dayjs(), 
   const [contactId, setContactId] = useState(initialContactId);
   const [disable, setDisable] = useState(true);
   const { closeModal } = useModal();
+
+//   useEffect(() => {
+//       dispatch(fetchJobDetails(jobId));
+//   }, [dispatch, jobId]);
 
   useEffect(() => {
     if (date === null || date.isBefore(dayjs()) || time === null || duration <= 0 || interviewer.length > 50) setDisable(true);
@@ -68,7 +73,7 @@ function EditEventModal({eventId, jobId, contacts = [], initialStart = dayjs(), 
             onChange={(date) => setDate(date)}
           />
           <TimePicker format='HH:mm' className="date-time-picker"
-          value={time}
+            value={time}
             onChange={(time) => setTime(time)}
           />
         </span>
@@ -78,7 +83,7 @@ function EditEventModal({eventId, jobId, contacts = [], initialStart = dayjs(), 
             className="event-modal-input-number"
             type="number"
             value={duration}
-            onChange={(e) => setDuration(e.target.value)}
+            onChange={(e) => setDuration(parseInt(e.target.value))}
             required
           />
         </label>

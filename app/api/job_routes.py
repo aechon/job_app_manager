@@ -38,7 +38,7 @@ def get_user_jobs():
 
     return jsonify([job.to_dict() for job in jobs]), 200
 
-# Get Job Details by ID 
+# Get Job Details by ID
 @job_routes.route('/<int:job_id>', methods=['GET'])
 @login_required
 def get_job_by_id(job_id):
@@ -49,10 +49,12 @@ def get_job_by_id(job_id):
     
     job_contacts = job.contacts.filter_by(userId=current_user.id) 
     job_events = job.events.filter_by(userId=current_user.id) 
+    job_forms = job.forms.filter_by(userId=current_user.id) 
 
     job = job.to_dict()
     job.update({"Contacts": [job.to_dict() for job in job_contacts]})
     job.update({"Events": [job.to_dict() for job in job_events]})
+    job.update({"Forms": [job.to_dict() for job in job_forms]})
 
     return jsonify(job), 200
 

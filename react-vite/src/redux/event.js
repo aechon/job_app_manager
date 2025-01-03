@@ -2,6 +2,7 @@ const GET_SCHEDULE = 'GET_SCHEDULE';
 const SET_EVENT_ERRORS = 'SET_EVENT_ERRORS';
 const ADD_EVENT = 'ADD_EVENT';
 const UPDATE_EVENT = 'UPDATE_EVENT';
+const GET_EVENT_DETAILS = 'GET_EVENT_DETAILS';
 
 // Action creators
 const getUserEvents = schedule => ({
@@ -23,6 +24,11 @@ const updateEvent = (event) => ({
   type: UPDATE_EVENT,
   event,
 });
+
+const getEventDetails = (event) => ({
+  type: GET_EVENT_DETAILS,
+  event,
+})
 
 // Thunk Action Creators
 export const fetchUserSchedule = () => async (dispatch) => {
@@ -88,6 +94,29 @@ export const editEvent = (eventData, id) => async (dispatch) => {
   }
 }
 
+export const fetchEventDetails = (id) => async (dispatch) => {
+  try {
+      const response = await fetch(`/api/schedule/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.ok) {
+        const event = await response.json();
+        dispatch(getEventDetails(event));
+      } else {
+        const errorData = await response.json();
+        dispatch(setEventErrors(errorData)); 
+      }
+    } catch (error) {
+      console.error('Error fetching event details:', error);
+      dispatch(setEventErrors({ server: 'An unexpected error occurred.' }));
+    }
+
+}
+
 // Initial State
 const initialState = {
     schedule: [],
@@ -109,6 +138,11 @@ const eventReducer = (state = initialState, action) => {
       event: action.event
     };
     case UPDATE_EVENT:
+    return {
+      ...state,
+      event: action.event
+    };
+    case GET_EVENT_DETAILS:
     return {
       ...state,
       event: action.event
