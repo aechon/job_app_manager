@@ -2,20 +2,21 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { DatePicker, TimePicker } from "antd";
-import { createEvent } from "../../redux/event";
+import { editEvent } from "../../redux/event";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'
 import "./EventModal.css";
 
-function NewEventModal({jobId, contacts = []}) { 
+function EditEventModal({eventId, jobId, contacts = [], initialStart = dayjs(), initialDuration = 60, initialType = '', initialInterviewer = '', initialContactId = null}) { 
+  
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
-  const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
-  const [duration, setDuration] = useState(30);
-  const [type, setType] = useState('');
-  const [interviewer, setInterviewer] = useState('');
-  const [contactId, setContactId] = useState();
+  const [date, setDate] = useState(initialStart);
+  const [time, setTime] = useState(initialStart);
+  const [duration, setDuration] = useState(initialDuration);
+  const [type, setType] = useState(initialType);
+  const [interviewer, setInterviewer] = useState(initialInterviewer);
+  const [contactId, setContactId] = useState(initialContactId);
   const [disable, setDisable] = useState(true);
   const { closeModal } = useModal();
 
@@ -33,13 +34,13 @@ function NewEventModal({jobId, contacts = []}) {
 
     // Dispatch the createEvent action
     const serverResponse = await dispatch(
-      createEvent({
+      editEvent({
         start,
         duration,
         type,
         interviewer,
         jobId,
-      })
+      }, eventId)
     );
 
     // console.log("Server Response:", serverResponse); // Debugging line
@@ -58,14 +59,16 @@ function NewEventModal({jobId, contacts = []}) {
   
   return (
     <div className="event-modal">
-      <h1 className="event-modal-title">New Interview</h1>
+      <h1 className="event-modal-title">Update Interview</h1>
       <form className="event-modal-form" onSubmit={handleSubmit}>
         <label> Start Time</label>
         <span className="event-modal-span">
-          <DatePicker className="date-time-picker" 
+          <DatePicker className="date-time-picker"
+            value={date}
             onChange={(date) => setDate(date)}
           />
           <TimePicker format='HH:mm' className="date-time-picker"
+          value={time}
             onChange={(time) => setTime(time)}
           />
         </span>
@@ -120,10 +123,10 @@ function NewEventModal({jobId, contacts = []}) {
           <></>
         )}
         {errors.message && <p className="error-message">{errors.message}</p>}
-        <button className="event-modal-button" type="submit" disabled={disable}>Add to schedule</button>
+        <button className="event-modal-button" type="submit" disabled={disable}>Update</button>
       </form>
     </div>
   );
 }
 
-export default NewEventModal;
+export default EditEventModal;

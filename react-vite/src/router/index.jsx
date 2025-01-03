@@ -12,9 +12,10 @@ import Contacts from '../components/Contacts/Contact-component'
 
 //imports for testing
 import OpenModalMenuItem from "../components/Navigation/OpenModalMenuItem";
-import NewEventModal from '../components/EventModal';
+import { NewEventModal, EditEventModal } from '../components/EventModal';
 let jobId = 1;
-let contacts = ['test', 'test1', 'test2'];
+let eventId = 1;
+let contacts = [{name: 'test', id: 1} , {name: 'test2', id: 2}, {name: 'test3', id: 4}];
 // delete all these later
 
 
@@ -70,6 +71,15 @@ export const router = createBrowserRouter([
                     itemText="Add Interview"
                     // onItemClick={closeModal}
                     modalComponent={<NewEventModal jobId={jobId} contacts={contacts} />}
+                    className="new-event-button" 
+                  />
+          <OpenModalMenuItem
+                    itemText="Edit Interview"
+                    // onItemClick={closeModal}
+                    modalComponent={<EditEventModal 
+                      eventId={eventId} 
+                      jobId={jobId} 
+                      contacts={contacts} />}
                     className="new-event-button" 
                   />
         </div>,
