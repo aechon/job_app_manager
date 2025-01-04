@@ -1,3 +1,5 @@
 import NewEventModal from './NewEventModal';
+import EditEventModal from './EditEventModal';
+import EventDetailModal from './EventDetailModal';
 
-export default NewEventModal;
+export {NewEventModal, EditEventModal, EventDetailModal};
