@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
-import logo from '../../components/Navigation/coding.png'; // Your icon image
+import logo from '../../components/Navigation/coding.png'; 
 import "./Navigation.css";
 
 function Navigation() {
@@ -15,7 +15,7 @@ function Navigation() {
       {user ? (
         <ul className="navigation-list"> 
           <li>
-            <NavLink to="/jobs/1/forms" className="nav-button">Jobs</NavLink>
+            <NavLink to="/user-jobs" className="nav-button">Jobs</NavLink>
           </li>
           <li>
             <NavLink to="/jobs/1/forms" className="nav-button">Contacts</NavLink>

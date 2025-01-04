@@ -10,6 +10,7 @@ import JobForm from '../components/FormModal/JobForm';
 import Contacts from '../components/Contacts/Contact-component';
 import JobDetails from '../components/JobDetails/JobDetails'; 
 import JobList from '../components/JobList/JobList'; 
+import JobUserList from '../components/JobList/JobUserList'
 
 // Imports for testing
 import OpenModalMenuItem from "../components/Navigation/OpenModalMenuItem";
@@ -25,7 +26,6 @@ export const router = createBrowserRouter([
         path: "/",
         element: <JobList />, 
       },
- 
       {
         path: "login",
         element: <LoginFormPage />,
@@ -45,6 +45,10 @@ export const router = createBrowserRouter([
       {
         path: "jobs/:jobId", 
         element: <JobDetails />,
+      },
+      {
+        path: "user-jobs", 
+        element: <JobUserList />, 
       },
       {
         path: "forms-list", 

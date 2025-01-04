@@ -7,14 +7,12 @@ import FormModal from "../FormModal/FormModal";
 
 const FormsList = () => {
   const userForms = useSelector((state) => state.form.userForms);
-  const user = useSelector((state) => state.session.user); // Assuming user info is stored here
+  const user = useSelector((state) => state.session.user); 
   const dispatch = useDispatch();
-  const [editingForm, setEditingForm] = useState(null);
-  const [formData, setFormData] = useState({ name: '', link: '' });
-  const { setModalContent } = useModal(); // Get modal functions
+  const { setModalContent } = useModal(); 
 
   useEffect(() => {
-    dispatch(fetchUserForms()); // Fetch forms fixed reload issue
+    dispatch(fetchUserForms());
   }, [dispatch]);
 
   const handleDeleteForm = (formId) => {
@@ -22,23 +20,22 @@ const FormsList = () => {
   };
 
   const handleEditForm = (form) => {
-    setEditingForm(form.id);
-    setFormData({ name: form.name, link: form.link });
-  };
+    const handleSaveEdit = (updatedFormData) => {
+      dispatch(editForm({ id: form.id, ...updatedFormData }));
+    };
 
-  const handleSaveEdit = () => {
-    dispatch(editForm({ id: editingForm, ...formData }));
-    setEditingForm(null); 
-    setFormData({ name: '', link: '' }); 
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    // Open the modal with the form data
+    setModalContent(
+      <FormModal 
+        initialData={{ name: form.name, link: form.link }} 
+        onSave={handleSaveEdit} 
+        onClose={() => setModalContent(null)} 
+      />
+    );
   };
 
   const handleOpenFormModal = () => {
-    setModalContent(<FormModal />); 
+    setModalContent(<FormModal onClose={() => setModalContent(null)} />); 
   };
 
   return (
@@ -54,43 +51,19 @@ const FormsList = () => {
         <div className="form-container">
           {userForms.map((form) => (
             <div className="form-item" key={form.id}>
-              {editingForm === form.id ? (
-                <div>
-                  <label htmlFor={`name-${form.id}`}>Name:</label>
-                  <input
-                    type="text"
-                    id={`name-${form.id}`}
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Form Name"
-                  />
-                  <label htmlFor={`link-${form.id}`}>Link:</label>
-                  <input
-                    type="text"
-                    id={`link-${form.id}`}
-                    name="link"
-                    value={formData.link}
-                    onChange={handleChange}
-                    placeholder="Form Link"
-                  />
-                  <button className="save-button" onClick={handleSaveEdit}>Save</button>
+              <div className="form-content">
+                <div className="form-name">Name: {form.name}</div>
+                <div className="form-link">
+                  <span>Link: </span>
+                  <a href={form.link} target="_blank" rel="noopener noreferrer">
+                    {form.link}
+                  </a>
                 </div>
-              ) : (
-                <div className="form-content">
-                  <div className="form-name">Name: {form.name}</div>
-                  <div className="form-link">
-                    <span>Link: </span>
-                    <a href={form.link} target="_blank" rel="noopener noreferrer">
-                      {form.link}
-                    </a>
-                  </div>
-                  <div className="form-buttons">
-                    <button className="edit-button" onClick={() => handleEditForm(form)}>Edit</button>
-                    <button className="delete-button" onClick={() => handleDeleteForm(form.id)}>Delete</button>
-                  </div>
+                <div className="form-buttons">
+                  <button className="edit-button" onClick={() => handleEditForm(form)}>Edit</button>
+                  <button className="delete-button" onClick={() => handleDeleteForm(form.id)}>Delete</button>
                 </div>
-              )}
+              </div>
             </div>
           ))}
         </div>
