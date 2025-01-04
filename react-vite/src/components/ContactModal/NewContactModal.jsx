@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./ContactModal.css";
 import { createContactThunk } from "../../redux/contact";
@@ -11,7 +11,6 @@ function NewContactModal() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [company, setCompany] = useState('');
-  const [disable, setDisable] = useState(false);
   const { closeModal } = useModal();
 
   const handleSubmit = async (e) => {
@@ -83,7 +82,7 @@ function NewContactModal() {
           />
         </label>
         {errors.company && <p className="error-message">{errors.company}</p>}
-        <button className="contact-modal-button" type="submit" disabled={disable}>Create Contact</button>
+        <button className="contact-modal-button" type="submit" >Create Contact</button>
       </form>
     </div>
   );
