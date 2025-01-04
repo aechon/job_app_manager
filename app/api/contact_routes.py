@@ -30,16 +30,19 @@ def create_contact():
 
     errors = {}
     if len(data.get('name')) > 50:
-        errors["name"] = "name must be 50 characters or less"
+        errors["name"] = "Name must be 50 characters or less"
 
-    if len(data.get('company')) > 50:
-        errors["company"] = "name must be 50 characters or less"
+    if data.get('company'):
+        if len(data.get('company')) > 50:
+            errors["company"] = "Company name must be 50 characters or less"
 
-    if not validate_phone(data.get('phone')):
-        errors["phone"] = "invalid phone number"
+    if data.get('phone'):
+        if not validate_phone(data.get('phone')):
+            errors["phone"] = "Invalid phone number"
     
-    if not validate_email(data.get('email')):
-        errors["email"] = "invalid email"
+    if data.get('email'):
+        if not validate_email(data.get('email')):
+            errors["email"] = "Invalid email"
 
     if errors:
         return jsonify({"errors": errors}), 400 

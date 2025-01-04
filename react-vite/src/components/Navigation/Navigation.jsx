@@ -18,7 +18,7 @@ function Navigation() {
             <NavLink to="/jobs/1/forms" className="nav-button">Jobs</NavLink>
           </li>
           <li>
-            <NavLink to="/jobs/1/forms" className="nav-button">Contacts</NavLink>
+            <NavLink to="/contacts" className="nav-button">Contacts</NavLink>
           </li>
           <li>
         <NavLink to="/jobs/1" className="nav-button">Job Details</NavLink>

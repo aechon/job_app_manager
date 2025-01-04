@@ -7,7 +7,7 @@ import Layout from './Layout';
 import UserForms from '../components/FormModal/UserForms';
 import FormsList from '../components/FormModal/FormList';
 import JobForm from '../components/FormModal/JobForm';
-import Contacts from '../components/Contacts/Contact-component';
+import ContactListPage from '../components/ContactListPage';
 import JobDetails from '../components/JobDetails/JobDetails'; 
 import JobList from '../components/JobList/JobList'; 
 
@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "contacts",
-        element: <Contacts />,
+        element: <ContactListPage />,
       },
       {
         path: "calendar",

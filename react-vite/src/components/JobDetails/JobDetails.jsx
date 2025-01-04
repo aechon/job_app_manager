@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchJobDetails, clearJobDetails } from '../../redux/job';
 import { useParams } from 'react-router-dom';
 import './JobDetails.css';
-import Contacts from '../Contacts/Contact-component'; 
+// import Contacts from '../Contacts/Contact-component'; 
 import JobForm from '../FormModal/JobForm';
 
 const JobDetails = () => {

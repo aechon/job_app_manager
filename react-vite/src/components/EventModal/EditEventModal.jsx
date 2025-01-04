@@ -95,7 +95,6 @@ function EditEventModal({eventId, jobId, initialStart = dayjs(), initialDuration
             required
           />
         </label>
-        {errors.name && <p className="error-message">{errors.name}</p>}
         <label className="event-modal-label">
           Type:
           <select 

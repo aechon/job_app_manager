@@ -1,6 +1,6 @@
 const CREATE_CONTACT = "contact/createContact";
 const GET_ALL_CONTACTS = "contact/getAllContacts";
-const GET_CONTACT_BY_ID = "contact/getContactById";
+// const GET_CONTACT_BY_ID = "contact/getContactById";
 const UPDATE_CONTACT = "contact/updateContact";
 const DELETE_CONTACT = "contact/deleteContact";
 
@@ -14,10 +14,10 @@ const getAllContactsAction = (contacts) => ({
   payload: contacts,
 });
 
-const getContactByIdAction = (contact) => ({
-  type: GET_CONTACT_BY_ID,
-  payload: contact,
-});
+// const getContactByIdAction = (contact) => ({
+//   type: GET_CONTACT_BY_ID,
+//   payload: contact,
+// });
 
 const updateContactAction = (contact) => ({
   type: UPDATE_CONTACT,
@@ -48,11 +48,11 @@ const contactReducer = (state = initialState, action) => {
         ...state,
         contacts: action.payload,
       };
-    case GET_CONTACT_BY_ID:
-      return {
-        ...state,
-        currentContact: action.payload,
-      };
+    // case GET_CONTACT_BY_ID:
+    //   return {
+    //     ...state,
+    //     currentContact: action.payload,
+    //   };
     case UPDATE_CONTACT:
       return {
         ...state,
@@ -72,7 +72,7 @@ const contactReducer = (state = initialState, action) => {
 
 export const createContactThunk = (contactData) => async (dispatch) => {
   try {
-    const response = await fetch("/api/contact", {
+    const response = await fetch("/api/contacts/new", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(contactData),
@@ -84,6 +84,7 @@ export const createContactThunk = (contactData) => async (dispatch) => {
     } else {
       const errorData = await response.json();
       console.error("Error creating contact:", errorData.errors);
+      return errorData;
     }
   } catch (error) {
     console.error("Error creating contact:", error);
@@ -92,7 +93,7 @@ export const createContactThunk = (contactData) => async (dispatch) => {
 
 export const getAllContactsThunk = () => async (dispatch) => {
   try {
-    const response = await fetch("/api/contact");
+    const response = await fetch("/api/contacts/session");
 
     if (response.ok) {
       const contacts = await response.json();
@@ -105,24 +106,24 @@ export const getAllContactsThunk = () => async (dispatch) => {
   }
 };
 
-export const getContactByIdThunk = (contactId) => async (dispatch) => {
-  try {
-    const response = await fetch(`/api/contact/${contactId}`);
+// export const getContactByIdThunk = (contactId) => async (dispatch) => {
+//   try {
+//     const response = await fetch(`/api/contacts/${contactId}`);
 
-    if (response.ok) {
-      const contact = await response.json();
-      dispatch(getContactByIdAction(contact));
-    } else {
-      console.error(`Error fetching contact with ID: ${contactId}`);
-    }
-  } catch (error) {
-    console.error("Error fetching contact by ID:", error);
-  }
-};
+//     if (response.ok) {
+//       const contact = await response.json();
+//       dispatch(getContactByIdAction(contact));
+//     } else {
+//       console.error(`Error fetching contact with ID: ${contactId}`);
+//     }
+//   } catch (error) {
+//     console.error("Error fetching contact by ID:", error);
+//   }
+// };
 
 export const updateContactThunk = (contactId, updatedData) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/contact/${contactId}`, {
+    const response = await fetch(`/api/contacts/${contactId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedData),
@@ -141,7 +142,7 @@ export const updateContactThunk = (contactId, updatedData) => async (dispatch) =
 
 export const deleteContactThunk = (contactId) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/contact/${contactId}`, {
+    const response = await fetch(`/api/contacts/${contactId}`, {
       method: "DELETE",
     });
 
