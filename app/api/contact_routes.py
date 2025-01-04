@@ -6,14 +6,12 @@ from app.models import Contact, db
 contact_routes = Blueprint('contacts', __name__)
 
 def validate_phone(phone):
-    phone_regex = r"^\+?1?\d{9,15}$"
+    phone_regex = r"^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$"
     return re.match(phone_regex, phone)
-
 
 def validate_email(email):
     email_regex =  r"[^@]+@[^@]+\.[^@]+"
     return re.match(email_regex, email)
-
 
 # Get current user contacts
 @contact_routes.route('/session', methods=['GET'])
@@ -29,6 +27,25 @@ def create_contact():
     data = request.get_json()
     if not all(k in data for k in (["name"])):
         return jsonify({"error": "Missing required data"}), 400
+
+    errors = {}
+    if len(data.get('name')) > 50:
+        errors["name"] = "Name must be 50 characters or less"
+
+    if data.get('company'):
+        if len(data.get('company')) > 50:
+            errors["company"] = "Company name must be 50 characters or less"
+
+    if data.get('phone'):
+        if not validate_phone(data.get('phone')):
+            errors["phone"] = "Invalid phone number"
+    
+    if data.get('email'):
+        if not validate_email(data.get('email')):
+            errors["email"] = "Invalid email"
+
+    if errors:
+        return jsonify({"errors": errors}), 400 
 
     new_contact = Contact(
         name=data.get('name'),

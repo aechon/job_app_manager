@@ -31,6 +31,12 @@ function LoginFormPage() {
     }
   };
 
+  // Function to fill demo user credentials
+  const handleDemoUser = () => {
+    setEmail("demo@user.com");
+    setPassword("password");
+  };
+
   return (
     <>
       <h1>Log In</h1>
@@ -57,7 +63,12 @@ function LoginFormPage() {
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button type="submit">Log In</button>
+          <button type="button" onClick={handleDemoUser}>
+            Demo User
+          </button>
+        </div>
       </form>
     </>
   );

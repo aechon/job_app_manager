@@ -25,34 +25,47 @@ function LoginFormModal() {
       setErrors(serverResponse);
     } else {
       closeModal();
+      window.location.reload(); // Refresh the page after successful login
     }
+  };
+
+  const handleDemoUser = () => {
+    // Set demo user credentials
+    setEmail("mytest@example.com");
+    setPassword("new_password"); // Replace with actual demo user password
   };
 
   return (
     <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+      <h1 className="login-title">Log In</h1>
+      {errors.server && <p className="error-message">{errors.server}</p>}
+      <form className="login-form" onSubmit={handleSubmit}>
+        <label className="login-label">
           Email
           <input
+            className="login-input"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
+        {errors.email && <p className="error-message">{errors.email}</p>}
+        <label className="login-label">
           Password
           <input
+            className="login-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        {errors.password && <p className="error-message">{errors.password}</p>}
+        <div className="button-container">
+          <button className="login-button" type="submit">Log In</button>
+          <button className="login-button" type="button" onClick={handleDemoUser}>Demo User</button>
+        </div>
       </form>
     </>
   );

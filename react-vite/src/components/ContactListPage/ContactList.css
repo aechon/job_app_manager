@@ -1,0 +1,124 @@
+.contact-container {
+    margin-top: 20px;
+    width: 80%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.contact-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-content-details {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    font-size: 13px;
+}
+
+.contact-name {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.contact-email {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.contact-phone {
+    flex: 1;
+}
+
+.contact-company {
+    flex: 1;
+}
+
+.contact-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.save-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0056b3;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100px;
+    margin-top: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.save-button:hover {
+    background-color: #0056b3;
+}
+
+.create-contact-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.create-contact-button {
+    padding: 5px 10px;
+    border: none;
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    width: 300px;
+}
+
+.create-contact-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-button {
+    background-color: #007bff;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button {
+    background-color: #dc3545;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+.centered-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    font-size: large;
+}
+
+input {
+    padding: 10px; /* Padding inside input fields */
+    margin-bottom: 15px; /* Space below input fields */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size for inputs */
+    width: 90%;
+    max-width: 400px;
+    margin: 10px 0;
+  }

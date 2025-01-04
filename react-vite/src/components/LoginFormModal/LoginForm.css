@@ -1,0 +1,85 @@
+.login-title {
+  text-align: center;
+  color: #333;
+}
+
+/* Container */
+.login-form {
+  background-color: #fff;
+  border-radius: 22px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto; /* Center the form */
+}
+
+.login-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.login-input {
+  width: 90%; 
+  max-width: 400px; 
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin: 0 0 10px 0;
+}
+
+/* Button Styles */
+.button-container {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between buttons */
+}
+
+.login-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 48%; /* Adjust width to fit two buttons */
+}
+
+.login-button:hover {
+  background-color: #218838;
+}
+
+.demo-button {
+  background-color: #007bff; /* Blue background for demo button */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 48%; /* Adjust width to fit two buttons */
+}
+
+.demo-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+@media (max-width: 500px) {
+  .login-form {
+      padding: 15px;
+  }
+
+  .login-button, .demo-button {
+      padding: 8px 12px;
+      width: 100%; /* Full width on smaller screens */
+  }
+}
