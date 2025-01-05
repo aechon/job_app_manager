@@ -39,12 +39,11 @@ function EventDetailModal({eventId}) {
     // Dispatch the delete action
     const serverResponse = await dispatch(removeEvent(eventId));
 
-    console.log("Server Response:", serverResponse); // Debugging line
+    // console.log("Server Response:", serverResponse); // Debugging line
 
     if (serverResponse) {
       // If there's an error from the server, set the errors
       setErrors(serverResponse);
-      console.log(errors);
     } else {
       // If the form is created successfully
     closeModal(); // Close the modal

@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchJobDetails, clearJobDetails } from '../../redux/job';
 import { useParams } from 'react-router-dom';
 import './JobDetails.css';
 import JobForm from '../FormModal/JobForm';
-import NewEventModal from '../EventModal/NewEventModal'; 
+import { NewEventModal, EventDetailModal } from '../EventModal';
+import { FormListModal, ContactListModal } from '../RelationModal';
+import { useModal } from "../../context/Modal";
 
 const JobDetails = () => {
   const { jobId } = useParams(); 
   const dispatch = useDispatch();
-
+  const { setModalContent } = useModal();
   const { jobDetails, loading, error } = useSelector((state) => state.job);
-  const [showNewEventModal, setShowNewEventModal] = useState(false); 
 
   useEffect(() => {
     dispatch(fetchJobDetails(jobId));
@@ -48,8 +49,10 @@ const JobDetails = () => {
 
         <div className="job-form-section">
           <JobForm />
+          <button onClick={() => setModalContent(<FormListModal jobId={jobId} />)}>Add Form</button>
         </div>
       </div>
+      
 
       <div className="contacts-events-container">
         <div className="contacts-section">
@@ -65,29 +68,25 @@ const JobDetails = () => {
           ) : (
             <p>No contacts available.</p>
           )}
+          <button onClick={() => setModalContent(<ContactListModal jobId={jobId} />)}>Add Contact</button>
         </div>
 
-<div className="events-section">
-  <h2>Events</h2>
-  {jobDetails.Events && jobDetails.Events.length > 0 ? (
-    <ul>
-      {jobDetails.Events.map((event) => (
-        <li key={event.id}>
-          {event.type} with {event.interviewer} - {new Date(event.start).toLocaleString()}
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p>No events available.</p>
-  )}
-  <button onClick={() => setShowNewEventModal(true)}>Schedule New Interview</button>
-  
-</div>
+      <div className="events-section">
+        <h2>Events</h2>
+        {jobDetails.Events && jobDetails.Events.length > 0 ? (
+          <ul>
+          {jobDetails.Events.map((event) => (
+            <li key={event.id} onClick={() => setModalContent(<EventDetailModal eventId={event.id} />)}>
+              {event.type} with {event.interviewer} - {new Date(event.start).toLocaleString()}
+            </li>
+            ))}
+          </ul>
+          ) : (
+            <p>No events available.</p>
+          )}
+          <button onClick={() => setModalContent(<NewEventModal jobId={jobId} />)}>Schedule New Interview</button>
+        </div>
       </div>
-
-      {showNewEventModal && ( 
-        <NewEventModal jobId={jobId} />
-      )}
     </div>
   );
 };

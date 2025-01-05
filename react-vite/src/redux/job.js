@@ -317,7 +317,7 @@ const jobReducer = (state = initialState, action) => {
       return {
         ...state,
       };
-    case DELETE_JOB_FORM_RELATION:
+    case DELETE_JOB_CONTACT_RELATION:
       return {
         ...state,
       };
