@@ -1,17 +1,17 @@
-
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchJobDetails, clearJobDetails } from '../../redux/job';
 import { useParams } from 'react-router-dom';
 import './JobDetails.css';
-// import Contacts from '../Contacts/Contact-component'; 
 import JobForm from '../FormModal/JobForm';
+import NewEventModal from '../EventModal/NewEventModal'; 
 
 const JobDetails = () => {
   const { jobId } = useParams(); 
   const dispatch = useDispatch();
 
   const { jobDetails, loading, error } = useSelector((state) => state.job);
+  const [showNewEventModal, setShowNewEventModal] = useState(false); 
 
   useEffect(() => {
     dispatch(fetchJobDetails(jobId));
@@ -26,46 +26,18 @@ const JobDetails = () => {
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Error: {error.message || 'Failed to load job details.'}</div>;
   }
 
   if (!jobDetails) {
     return <div>No job details found.</div>;
   }
 
-  const handleEditContact = (contactId) => {
-    console.log(`Edit contact with ID: ${contactId}`);
-
-  };
-
-  const handleDeleteContact = (contactId) => {
-    console.log(`Delete contact with ID: ${contactId}`);
- 
-  };
-
-  const handleEditEvent = (eventId) => {
-    console.log(`Edit event with ID: ${eventId}`);
-
-  };
-
-  const handleDeleteEvent = (eventId) => {
-    console.log(`Delete event with ID: ${eventId}`);
-
-  };
-
-
-
-  const testEvents = [
-    { id: 1, name: 'Meeting', date: '2025-01-10' },
-    { id: 2, name: 'Interview', date: '2025-01-15' },
-  ];
-
   return (
     <div className="job-details-container">
-      
       <div className="job-details-and-form">
         <div className="job-details">
-        <h1>Job Details</h1>
+          <h1>Job Details</h1>
           <p><strong>Job ID:</strong> {jobDetails.id}</p>
           <p><strong>Job Name:</strong> {jobDetails.name}</p>
           <p><strong>Employer:</strong> {jobDetails.employer}</p>
@@ -78,6 +50,7 @@ const JobDetails = () => {
           <JobForm />
         </div>
       </div>
+
       <div className="contacts-events-container">
         <div className="contacts-section">
           <h2>Contacts</h2>
@@ -90,38 +63,31 @@ const JobDetails = () => {
               ))}
             </ul>
           ) : (
-    <p>No contacts available.</p>
-  )}
-  {/* Buttons Section for Contacts */}
-  <div className="buttons-container">
-    <button className="edit-job-button" onClick={() => handleEditContact(1)}>Edit Contact</button>
-    <button className="delete-job-button" onClick={() => handleDeleteContact(1)}>Delete Contact</button>
-  </div>
-</div>
-
-        <div className="events-section">
-          <h2>Events</h2>
-                {/* {jobDetails.Events.length > 0 ? (
-        <ul>
-          {jobDetails.Events.map((event, index) => ( */}
-          {testEvents.length > 0 ? (
-            <ul>
-              {testEvents.map((event, index) => (
-                <li key={index}>
-                  {event.name} - {event.date}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No events available.</p>
+            <p>No contacts available.</p>
           )}
-    
-          <div className="buttons-container">
-            <button className="edit-job-button" onClick={() => handleEditEvent(1)}>Edit Event</button>
-            <button className="delete-job-button" onClick={() => handleDeleteEvent(1)}>Delete Event</button>
-          </div>
         </div>
+
+<div className="events-section">
+  <h2>Events</h2>
+  {jobDetails.Events && jobDetails.Events.length > 0 ? (
+    <ul>
+      {jobDetails.Events.map((event) => (
+        <li key={event.id}>
+          {event.type} with {event.interviewer} - {new Date(event.start).toLocaleString()}
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No events available.</p>
+  )}
+  <button onClick={() => setShowNewEventModal(true)}>Schedule New Interview</button>
+  
+</div>
       </div>
+
+      {showNewEventModal && ( 
+        <NewEventModal jobId={jobId} />
+      )}
     </div>
   );
 };

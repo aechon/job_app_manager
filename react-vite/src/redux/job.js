@@ -73,6 +73,29 @@ const fetchUserJobsFailure = (error) => ({
   error,
 });
 
+//create a new event
+export const createEvent = (eventData) => async (dispatch) => {
+  try {
+    const response = await fetch('/api/schedule/new', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(eventData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create event');
+    }
+
+    const updatedJobDetails = await response.json(); // Get updated job details
+    dispatch(setJobDetails(updatedJobDetails)); // Update the Redux store with new job details
+  } catch (error) {
+    console.error('Error creating event:', error);
+    dispatch(setJobErrors({ server: error.message })); // Handle errors
+  }
+};
+
 // Thunk Action Creators
 export const fetchJobDetails = (jobId) => async (dispatch) => {
   try {

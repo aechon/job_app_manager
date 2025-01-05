@@ -73,3 +73,30 @@ h1, h2 {
     justify-content: center; 
     gap: 10px; 
 }
+
+.events-section {
+    margin: 20px 0;
+  }
+  
+  .events-section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .events-section ul {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove padding */
+  }
+  
+  .events-section li {
+    background-color: #f9f9f9; /* Light background for events */
+    border: 1px solid #ddd; /* Border around each event */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding inside each event */
+    margin-bottom: 10px; /* Space between events */
+    transition: background-color 0.3s; /* Smooth background change on hover */
+  }
+  
+  .events-section li:hover {
+    background-color: #e0e0e0; /* Change background on hover */
+  }

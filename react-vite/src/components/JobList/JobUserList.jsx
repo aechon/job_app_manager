@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchJobs } from '../../redux/job'; 
+import { Link } from 'react-router-dom';
 import './JobUserList.css'; 
 
 const JobUserList = () => {
@@ -118,14 +119,19 @@ const JobUserList = () => {
   return (
     <div className="job-user-list-container">
       <h2>Your Job Listings</h2>
-      <button className="create-job-button" onClick={() => setShowCreateModal(true)}>Create a New Job</button>
+      <button className="create-job-button" onClick={() => setShowCreateModal(true)}>
+        Create a New Job
+      </button>
       {jobs.length === 0 ? (
         <p className="centered-message">No jobs found.</p>
       ) : (
         <div className="job-container">
           {jobs.map((job) => (
             <div className="job-item" key={job.id}>
-              <h3>{job.name}</h3>
+              {/* Make the job name clickable */}
+              <h3>
+                <Link to={`/jobs/${job.id}`}>{job.name}</Link>
+              </h3>
               <p>Employer: {job.employer}</p>
               <p>Location: {job.location}</p>
               <p>Pay: ${job.pay}</p>
