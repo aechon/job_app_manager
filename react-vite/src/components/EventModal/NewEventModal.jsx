@@ -4,11 +4,11 @@ import { useModal } from "../../context/Modal";
 import { DatePicker, TimePicker } from "antd";
 import { createEvent } from "../../redux/event";
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc'
+import utc from 'dayjs/plugin/utc';
 import "./EventModal.css";
 import { fetchJobDetails } from "../../redux/job";
 
-function NewEventModal({jobId}) { 
+function NewEventModal({ jobId }) { 
   const dispatch = useDispatch();
   const jobDetails = useSelector((state) => state.job.jobDetails);
   const [errors, setErrors] = useState({});
@@ -23,17 +23,20 @@ function NewEventModal({jobId}) {
   const { closeModal } = useModal();
 
   useEffect(() => {
-    if (date === null || date.isBefore(dayjs()) || time === null || duration <= 0 || interviewer.length > 50) setDisable(true);
-    else setDisable(false);
-  }, [date, time, duration, interviewer])
+    if (date === null || date.isBefore(dayjs()) || time === null || duration <= 0 || interviewer.length > 50) {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  }, [date, time, duration, interviewer]);
 
   useEffect(() => {
     dispatch(fetchJobDetails(jobId));
   }, [dispatch, jobId]);
 
   useEffect(() => {
-    if (jobDetails) setContacts(jobDetails.Contacts)
-  }, [jobDetails])
+    if (jobDetails) setContacts(jobDetails.Contacts);
+  }, [jobDetails]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,15 +57,14 @@ function NewEventModal({jobId}) {
       })
     );
 
-    // console.log("Server Response:", serverResponse); // Debugging line
-
     if (serverResponse) {
       // If there's an error from the server, set the errors
       setErrors(serverResponse);
       console.log(errors);
     } else {
-      // If the form is created successfully
-    closeModal(); // Close the modal
+
+      await dispatch(fetchJobDetails(jobId)); // Fetch updated job details after creation <===========
+      closeModal(); // Close the modal
     }  
   };
 

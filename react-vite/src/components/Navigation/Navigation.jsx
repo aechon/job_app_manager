@@ -21,9 +21,6 @@ function Navigation() {
             <NavLink to="/contacts" className="nav-button">Contacts</NavLink>
           </li>
           <li>
-        <NavLink to="/jobs/1" className="nav-button">Job Details</NavLink>
-        </li>
-          <li>
             <NavLink to="/user-forms" className="nav-button">Forms</NavLink>
           </li>
           <li>

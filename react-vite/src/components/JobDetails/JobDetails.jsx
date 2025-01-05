@@ -49,42 +49,54 @@ const JobDetails = () => {
 
         <div className="job-form-section">
           <JobForm />
-          <button onClick={() => setModalContent(<FormListModal jobId={jobId} />)}>Add Form</button>
+          <button className="add-form-button" onClick={() => setModalContent(<FormListModal jobId={jobId} />)}>Add Form</button>
         </div>
       </div>
       
-
       <div className="contacts-events-container">
         <div className="contacts-section">
           <h2>Contacts</h2>
-          {jobDetails.Contacts && jobDetails.Contacts.length > 0 ? (
-            <ul>
-              {jobDetails.Contacts.map((contact, index) => (
-                <li key={index}>
-                  {contact.name} - {contact.email}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No contacts available.</p>
-          )}
-          <button onClick={() => setModalContent(<ContactListModal jobId={jobId} />)}>Add Contact</button>
+          <div className="contacts-list">
+            {jobDetails.Contacts && jobDetails.Contacts.length > 0 ? (
+              <ul>
+                {jobDetails.Contacts.map((contact, index) => (
+                  <li key={index}>
+                    {contact.name} - {contact.email}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No contacts available.</p>
+            )}
+          </div>
+          <button className="add-contact-button" onClick={() => setModalContent(<ContactListModal jobId={jobId} />)}>
+            Select Contact
+          </button>
         </div>
 
-      <div className="events-section">
-        <h2>Events</h2>
-        {jobDetails.Events && jobDetails.Events.length > 0 ? (
-          <ul>
-          {jobDetails.Events.map((event) => (
-            <li key={event.id} onClick={() => setModalContent(<EventDetailModal eventId={event.id} />)}>
-              {event.type} with {event.interviewer} - {new Date(event.start).toLocaleString()}
-            </li>
-            ))}
-          </ul>
-          ) : (
-            <p>No events available.</p>
-          )}
-          <button onClick={() => setModalContent(<NewEventModal jobId={jobId} />)}>Schedule New Interview</button>
+        <div className="events-section">
+          <h2>Events</h2>
+          <div className="events-list">
+            {jobDetails.Events && jobDetails.Events.length > 0 ? (
+              <ul>
+                {jobDetails.Events.map((event) => (
+                  <li 
+                    key={event.id} 
+                    className="event-item" 
+                    onClick={() => setModalContent(<EventDetailModal eventId={event.id} />)}
+                  >
+                    <span className="event-name">{event.type} with {event.interviewer}</span> - 
+                    <span className="event-time">{new Date(event.start).toLocaleString()}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No events available.</p>
+            )}
+          </div>
+          <button className="schedule-new-interview-button" onClick={() => setModalContent(<NewEventModal jobId={jobId} />)}>
+            Schedule New Interview
+          </button>
         </div>
       </div>
     </div>

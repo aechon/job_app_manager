@@ -6,8 +6,9 @@ import { fetchEventDetails, removeEvent } from "../../redux/event";
 import dayjs from 'dayjs';
 import "./EventModal.css";
 import EditEventModal from "./EditEventModal";
+import { fetchJobDetails } from "../../redux/job"; // Import fetchJobDetails
 
-function EventDetailModal({eventId}) { 
+function EventDetailModal({ eventId }) { 
   const dispatch = useDispatch();
   const event = useSelector((state) => state.event.event);
   const error = useSelector((state) => state.event.errors);
@@ -17,7 +18,7 @@ function EventDetailModal({eventId}) {
   const [disable, setDisable] = useState(false);
   const { closeModal } = useModal();
 
-  // fetch event details
+  // Fetch event details
   useEffect(() => {
     dispatch(fetchEventDetails(eventId));
   }, [dispatch, eventId]);
@@ -27,26 +28,25 @@ function EventDetailModal({eventId}) {
   }, [error]);
 
   useEffect(() => {
-    if (Object.keys(errors).length != 0) setDisable(true);
+    if (Object.keys(errors).length !== 0) setDisable(true);
   }, [errors]);
   
   let start = null;
   if (event) start = dayjs(event.start);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleDelete = async (e) => {
+    e.preventDefault(); // Prevent default form submission
 
     // Dispatch the delete action
     const serverResponse = await dispatch(removeEvent(eventId));
-
-    // console.log("Server Response:", serverResponse); // Debugging line
 
     if (serverResponse) {
       // If there's an error from the server, set the errors
       setErrors(serverResponse);
     } else {
-      // If the form is created successfully
-    closeModal(); // Close the modal
+      
+      await dispatch(fetchJobDetails(event.jobId)); // Fetch updated job details <=================
+      closeModal(); // Close the modal
     }  
   };
   
@@ -64,7 +64,7 @@ function EventDetailModal({eventId}) {
   return (
     <div className="event-modal">
       <h1 className="event-modal-title">Interview Details</h1>
-      <form className="event-modal-form" onSubmit={handleSubmit}>
+      <form className="event-modal-form" onSubmit={handleDelete}>
         <label> Start Time</label>
         <span className="event-modal-span">
           <DatePicker className="date-time-picker" 
@@ -121,8 +121,8 @@ function EventDetailModal({eventId}) {
           <></>
         )}
         {errors.message && <p className="error-message">{errors.message}</p>}
-        <button className="event-modal-button" disabled={disable} onClick={() => openEditModal()} >Edit Interview</button>
-        <button className="event-modal-button-delete" disabled={disable} type="submit" >Delete Interview</button>
+        <button className="event-modal-button" disabled={disable} onClick={openEditModal}>Edit Interview</button>
+        <button className="event-modal-button-delete" disabled={disable} type="submit">Delete Interview</button>
       </form>
     </div>
   );
