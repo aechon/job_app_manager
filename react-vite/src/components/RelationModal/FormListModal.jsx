@@ -1,11 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { fetchUserForms } from '../../redux/form';
+import { addJobFormRelation } from '../../redux/job';
 import './ListModal.css'; 
 import { useEffect } from 'react';
 import { useModal } from "../../context/Modal";
 
-const FormsListModal = ({ jobId, jobForms = []}) => {
+const FormListModal = ({ jobId, jobForms = []}) => {
   const userForms = useSelector((state) => state.form.userForms);
   const user = useSelector((state) => state.session.user); 
   const dispatch = useDispatch();
@@ -19,10 +20,8 @@ const FormsListModal = ({ jobId, jobForms = []}) => {
 //   const unaddedFormList = [] - jobForms;
 
   const handleAddForm = (formId) => {
-    // Dispatch the createContactJobRelation action
-     const serverResponse = dispatch(
-        //   createFormJobRelation(jobId, formId)
-    );
+    // Dispatch the addJobFormRelation action
+     const serverResponse = dispatch(addJobFormRelation(jobId, formId));
 
     console.log("Server Response:", serverResponse); // Debugging line
 
@@ -40,14 +39,14 @@ const FormsListModal = ({ jobId, jobForms = []}) => {
       {userForms.length === 0 ? (
           <p className="centered-message">No forms found.</p>
       ) : (
-        <div className="form-container">
+        <div className="relation-container">
           {errors.message && <p className="error-message">{errors.message}</p>}
           {userForms.map((form) => (
-            <div className="form-item" key={form.id}>
-              <div className="form-content">
+            <div className="relation-item" key={form.id}>
+              <div className="relation-content">
                 <span>
-                  <div className="form-name">{form.name}</div>
-                  <div className="form-buttons">
+                  <div className="relation-name">{form.name}</div>
+                  <div className="relation-buttons">
                   <button className="edit-button" onClick={() => handleAddForm(form.id)}>Add</button>
                   </div>
                 </span>
@@ -65,4 +64,4 @@ const FormsListModal = ({ jobId, jobForms = []}) => {
   );
 };
 
-export default FormsListModal;
+export default FormListModal;
