@@ -46,3 +46,9 @@
   .form-link a:hover {
     text-decoration: underline; 
   }
+
+  .job-form-list {
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }

@@ -5,6 +5,7 @@ import { addJobFormRelation } from '../../redux/job';
 import './ListModal.css'; 
 import { useEffect } from 'react';
 import { useModal } from "../../context/Modal";
+import { fetchJobDetails } from "../../redux/job"; // Import fetchJobDetails
 
 const FormListModal = ({ jobId, jobForms = []}) => {
   const userForms = useSelector((state) => state.form.userForms);
@@ -19,9 +20,9 @@ const FormListModal = ({ jobId, jobForms = []}) => {
 
 //   const unaddedFormList = [] - jobForms;
 
-  const handleAddForm = (formId) => {
+  const handleAddForm = async (formId) => {
     // Dispatch the addJobFormRelation action
-     const serverResponse = dispatch(addJobFormRelation(jobId, formId));
+     const serverResponse = await dispatch(addJobFormRelation(jobId, formId));
 
     console.log("Server Response:", serverResponse); // Debugging line
 
@@ -30,7 +31,8 @@ const FormListModal = ({ jobId, jobForms = []}) => {
       setErrors(serverResponse);
     } else {
       // If the contact is created successfully
-    closeModal(); // Close the modal
+      await dispatch(fetchJobDetails(jobId)); // Fetch updated job details <=================
+      closeModal(); // Close the modal
     }  
   };
 

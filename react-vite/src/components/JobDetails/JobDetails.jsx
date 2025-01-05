@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchJobDetails, clearJobDetails } from '../../redux/job';
+import { fetchJobDetails, clearJobDetails, removeJobContactRelation } from '../../redux/job';
 import { useParams } from 'react-router-dom';
 import './JobDetails.css';
 import JobForm from '../FormModal/JobForm';
 import { NewEventModal, EventDetailModal } from '../EventModal';
-import { FormListModal, ContactListModal } from '../RelationModal';
+import { ContactListModal } from '../RelationModal';
 import { useModal } from "../../context/Modal";
 
 const JobDetails = () => {
@@ -13,6 +13,7 @@ const JobDetails = () => {
   const dispatch = useDispatch();
   const { setModalContent } = useModal();
   const { jobDetails, loading, error } = useSelector((state) => state.job);
+  const [ contactError, setContactError] = useState('');
 
   useEffect(() => {
     dispatch(fetchJobDetails(jobId));
@@ -21,6 +22,18 @@ const JobDetails = () => {
       dispatch(clearJobDetails());
     };
   }, [dispatch, jobId]);
+
+  const handleRemoveContact = async (contactId) => {
+    // Dispatch the delete action
+    const serverResponse = await dispatch(removeJobContactRelation(jobId, contactId));
+    
+    if (serverResponse) {
+      // If there's an error from the server, set the errors
+      setContactError(serverResponse.message);
+    } else {
+      dispatch(fetchJobDetails(jobId)); // Fetch updated job details <=================
+    }
+  }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -49,19 +62,27 @@ const JobDetails = () => {
 
         <div className="job-form-section">
           <JobForm />
-          <button className="add-form-button" onClick={() => setModalContent(<FormListModal jobId={jobId} />)}>Add Form</button>
         </div>
       </div>
       
       <div className="contacts-events-container">
         <div className="contacts-section">
           <h2>Contacts</h2>
+          {contactError && <p className="error-message">{contactError}</p>}
           <div className="contacts-list">
             {jobDetails.Contacts && jobDetails.Contacts.length > 0 ? (
               <ul>
                 {jobDetails.Contacts.map((contact, index) => (
-                  <li key={index}>
-                    {contact.name} - {contact.email}
+                  <li className='contact-list-item' key={index}>
+                    {contact.name} 
+                    {contact.email != '' ? (
+                      <>
+                        {' - ' + contact.email}
+                      </>
+                    ):(
+                      <></>
+                    )}
+                    <button className='contact-remove-button' onClick={() => handleRemoveContact(contact.id)}>Remove</button>
                   </li>
                 ))}
               </ul>
@@ -85,8 +106,16 @@ const JobDetails = () => {
                     className="event-item" 
                     onClick={() => setModalContent(<EventDetailModal eventId={event.id} />)}
                   >
-                    <span className="event-name">{event.type} with {event.interviewer}</span> - 
-                    <span className="event-time">{new Date(event.start).toLocaleString()}</span>
+                    <span className="event-name">{event.type}
+                    {event.interviewer != '' ? (
+                      <>
+                        {" with " + event.interviewer}
+                      </>
+                    ):(
+                      <></>
+                    )}
+                    </span>
+                    <span className="event-time"> - {new Date(event.start).toLocaleString()}</span>
                   </li>
                 ))}
               </ul>

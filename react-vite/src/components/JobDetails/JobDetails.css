@@ -82,6 +82,11 @@ body {
   height: 300px; 
 }
 
+.contacts-list, .events-list {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
 .contacts-section h2, .events-section h2 {
   font-family: 'Montserrat', sans-serif; 
   font-size: 20px;
@@ -100,6 +105,14 @@ body {
   padding: 10px;
   border-bottom: 1px solid #ddd;
   transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.contact-remove-button {
+  margin-left: auto;
+  justify-content: flex-end;
+  padding: 5px;
 }
 
 .contacts-section li:last-child, .events-section li:last-child {

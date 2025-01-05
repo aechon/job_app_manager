@@ -5,6 +5,7 @@ import { addJobContactRelation } from '../../redux/job';
 import './ListModal.css'; 
 import { useEffect } from 'react';
 import { useModal } from "../../context/Modal";
+import { fetchJobDetails } from "../../redux/job"; // Import fetchJobDetails
 
 const ContactListModal = ({ jobId, jobContacts = []}) => {
   const contacts = useSelector((state) => state.contact.contacts);
@@ -20,9 +21,9 @@ const ContactListModal = ({ jobId, jobContacts = []}) => {
 
 //   const unaddedContactList = [] - jobContacts;
 
-  const handleAddContact = (contactId) => {
+  const handleAddContact = async (contactId) => {
     // Dispatch the addJobContactRelation action
-     const serverResponse = dispatch(addJobContactRelation(jobId, contactId));
+     const serverResponse = await dispatch(addJobContactRelation(jobId, contactId));
 
     console.log("Server Response:", serverResponse); // Debugging line
 
@@ -31,7 +32,9 @@ const ContactListModal = ({ jobId, jobContacts = []}) => {
       setErrors(serverResponse);
     } else {
       // If the contact is created successfully
-    closeModal(); // Close the modal
+
+      await dispatch(fetchJobDetails(jobId)); // Fetch updated job details <=================
+      closeModal(); // Close the modal
     }  
   };
 
