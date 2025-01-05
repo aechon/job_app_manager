@@ -1,13 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchUserForms } from '../../redux/form';
 import { addJobFormRelation } from '../../redux/job';
 import './ListModal.css'; 
-import { useEffect } from 'react';
 import { useModal } from "../../context/Modal";
-import { fetchJobDetails } from "../../redux/job"; // Import fetchJobDetails
+import { fetchJobDetails } from "../../redux/job"; 
 
-const FormListModal = ({ jobId, jobForms = []}) => {
+const FormListModal = ({ jobId, jobForms = [] }) => {
   const userForms = useSelector((state) => state.form.userForms);
   const user = useSelector((state) => state.session.user); 
   const dispatch = useDispatch();
@@ -18,50 +17,49 @@ const FormListModal = ({ jobId, jobForms = []}) => {
     dispatch(fetchUserForms());
   }, [dispatch]);
 
-//   const unaddedFormList = [] - jobForms;
-
   const handleAddForm = async (formId) => {
-    // Dispatch the addJobFormRelation action
-     const serverResponse = await dispatch(addJobFormRelation(jobId, formId));
-
-    console.log("Server Response:", serverResponse); // Debugging line
-
+    const serverResponse = await dispatch(addJobFormRelation(jobId, formId));
     if (serverResponse) {
-      // If there's an error from the server, set the errors
       setErrors(serverResponse);
     } else {
-      // If the contact is created successfully
-      await dispatch(fetchJobDetails(jobId)); // Fetch updated job details <=================
-      closeModal(); // Close the modal
+      // Fetch updated job details after adding the form
+      await dispatch(fetchJobDetails(jobId));
+      closeModal();
     }  
   };
 
   return (
-    <div className="container">
+    <div className="pop_container">
+      <h2 className="modal-title">Add Form to Job</h2> 
       {userForms.length === 0 ? (
-          <p className="centered-message">No forms found.</p>
+        <p className="centered-message">No forms found.</p>
       ) : (
         <div className="relation-container">
           {errors.message && <p className="error-message">{errors.message}</p>}
           {userForms.map((form) => (
-            <div className="relation-item" key={form.id}>
+            <div 
+              className="relation-item" 
+              key={form.id} 
+              onClick={() => handleAddForm(form.id)} 
+              role="button" 
+              tabIndex={0} 
+              onKeyPress={(e) => { if (e.key === 'Enter') handleAddForm(form.id); }}
+            >
               <div className="relation-content">
-                <span>
-                  <div className="relation-name">{form.name}</div>
-                  <div className="relation-buttons">
-                  <button className="edit-button" onClick={() => handleAddForm(form.id)}>Add</button>
-                  </div>
-                </span>
+                <div className="relation-name">{form.name}</div>
+                <div className="relation-link">
+                  <a href={form.link} target="_blank" rel="noopener noreferrer">{form.link}</a>
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
-      <div className="close-button-container"> 
+      {/* <div className="close-button-container"> 
         {user && ( 
           <button onClick={closeModal} className="close-button">Close</button>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

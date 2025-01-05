@@ -29,7 +29,6 @@ const JobForm = () => {
         }
 
         const data = await response.json();
-        console.log('Fetched data:', data); 
         setForms(data); 
       } catch (err) {
         setError(err.message || 'An error occurred while fetching forms.');
@@ -40,6 +39,30 @@ const JobForm = () => {
 
     fetchJobForms();
   }, [jobId]);
+
+  const handleRemoveForm = async (formId) => {
+    try {
+      const response = await fetch(`/api/jobs/${jobId}/forms/${formId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error deleting form:', errorData);
+        throw new Error('An error occurred while deleting the form.');
+      }
+
+     
+      setForms((prevForms) => prevForms.filter(form => form.id !== formId));
+    } catch (error) {
+      console.error('Error:', error);
+      setError(error.message || 'An unexpected error occurred while removing the form.');
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -68,6 +91,7 @@ const JobForm = () => {
                       {form.link}
                     </a>
                   </div>
+                  <button className="remove-form-button" onClick={() => handleRemoveForm(form.id)}>Remove</button>
                 </div>
               </li>
             ))}

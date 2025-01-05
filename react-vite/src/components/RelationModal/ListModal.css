@@ -1,0 +1,146 @@
+.pop_container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.centered-message {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+}
+
+.relation-container {
+  margin-top: 10px;
+}
+
+.relation-content {
+  flex-grow: 1;
+}
+
+.relation-name {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.relation-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.relation-link a:hover {
+  text-decoration: underline;
+}
+
+.relation-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.close-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.close-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.close-button:hover {
+  background-color: #c62828;
+  transform: scale(1.05);
+}
+
+.relation-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #eaeaea;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.relation-item:hover {
+  background-color: #f0f0f0;
+}
+
+.check-mark {
+  color: green;
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.relation-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+}
+
+.close-button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.close-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #0056b3;
+}
