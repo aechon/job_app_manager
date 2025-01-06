@@ -11,7 +11,7 @@ const JobUserList = () => {
   const errors = useSelector((state) => state.job.errors);
 
   const [editingJob, setEditingJob] = useState(null);
-  const [jobDetails, setJobDetails] = useState({ name: '', employer: '', location: '', pay: '' });
+  const [jobDetails, setJobDetails] = useState({ name: '', employer: '', location: '', pay: '', description: ''});
   const [showEditModal, setShowEditModal] = useState(false); 
   const [showCreateModal, setShowCreateModal] = useState(false); 
   const [modalMessage, setModalMessage] = useState(''); 
@@ -118,6 +118,11 @@ const JobUserList = () => {
     setModalMessage(''); 
   };
 
+  const handleShowCreateModal = () => {
+    setShowCreateModal(true);
+    setJobDetails({ name: '', employer: '', location: '', pay: '', description: ''});
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -129,14 +134,19 @@ const JobUserList = () => {
   return (
     <div className="job-user-list-container">
       <h2>Your Job Listings</h2>
-      <button className="create-job-button" onClick={() => setShowCreateModal(true)}>
+      <button className="create-job-button" onClick={handleShowCreateModal}>
         Create a New Job
       </button>
       {jobs.length === 0 ? (
         <p className="centered-message">No jobs found.</p>
       ) : (
         <div className="job-container">
-          {jobs.map((job) => (
+          {jobs
+          .sort((a, b) => {
+            if (a.name.localeCompare(b.name) > 0) return 1;
+            else return -1;
+          })
+          .map((job) => (
             <div className="job-item" key={job.id}>
               <h3>
                 <Link to={`/jobs/${job.id}`}>{job.name}</Link>

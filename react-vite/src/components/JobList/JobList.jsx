@@ -32,7 +32,12 @@ const JobList = () => {
         <p className="centered-message">No jobs found.</p>
       ) : (
         <div className="job-container">
-          {jobs.map((job) => (
+          {jobs
+          .sort((a, b) => {
+            if (a.name.localeCompare(b.name) > 0) return 1;
+            else return -1;
+          })
+          .map((job) => (
             <div className="job-item" key={job.id}>
               <h3>{job.name}</h3>
               <p>Employer: {job.employer}</p>
