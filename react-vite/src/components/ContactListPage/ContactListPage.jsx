@@ -117,25 +117,28 @@ const ContactListPage = () => {
                   <div className='contact-content-details'>
                     <div className="contact-name">Name: {contact.name}</div>
                     <div className="contact-company">Company:  
-                      {contact.company === '' ? (
+                      {contact.company}
+                      {/* {contact.company === '' ? (
                         <text> N/A</text>
                       ) : (
                         <text> {contact.company}</text>
-                      )}
+                      )} */}
                     </div>
                     <div className="contact-email">Email:  
-                      {contact.email === '' ? (
+                      {contact.email}
+                      {/* {contact.email === '' ? (
                         <text> N/A</text>
                       ) : (
                         <text> {contact.email}</ text>
-                      )}
+                      )} */}
                     </div>
                     <div className="contact-phone">Phone:  
-                      {contact.phone === '' ? (
+                      {contact.phone}
+                      {/* {contact.phone === '' ? (
                         <text> N/A</text>
                       ) : (
                         <text> {contact.phone}</text>
-                      )}
+                      )} */}
                     </div>
                   </div>
                   <div className="contact-buttons">
