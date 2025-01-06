@@ -77,7 +77,7 @@ const JobForm = () => {
 
   return (
     <div className="job-forms-container">
-      <h2>Related Forms for Job ID: {jobId}</h2>
+      <h2>Related Forms</h2>
       <div className="job-form-list">
         {forms.length === 0 ? (
           <p>No forms found for this job.</p>
@@ -87,7 +87,7 @@ const JobForm = () => {
               <li key={form.id} className="form-item">
                 <div className="form-details">
                   <div className="form-name">Name: {form.name}</div>
-                  <div className="form-userId">User ID: {form.userId}</div>
+                  {/* <div className="form-userId">User ID: {form.userId}</div> */}
                   <div className="form-link">
                     <span>Link: </span>
                     <a href={form.link} target="_blank" rel="noopener noreferrer">

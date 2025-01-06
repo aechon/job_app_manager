@@ -7,6 +7,7 @@ import JobForm from '../FormModal/JobForm';
 import { NewEventModal, EventDetailModal } from '../EventModal';
 import { ContactListModal } from '../RelationModal';
 import { useModal } from "../../context/Modal";
+import dayjs from 'dayjs';
 
 const JobDetails = () => {
   const { jobId } = useParams(); 
@@ -52,12 +53,12 @@ const JobDetails = () => {
       <div className="job-details-and-form">
         <div className="job-details">
           <h1>Job Details</h1>
-          <p><strong>Job ID:</strong> {jobDetails.id}</p>
+          {/* <p><strong>Job ID:</strong> {jobDetails.id}</p> */}
           <p><strong>Job Name:</strong> {jobDetails.name}</p>
           <p><strong>Employer:</strong> {jobDetails.employer}</p>
           <p><strong>Location:</strong> {jobDetails.location}</p>
           <p><strong>Pay:</strong> ${jobDetails.pay}</p>
-          <p><strong>Creator ID:</strong> {jobDetails.creatorId}</p>
+          {/* <p><strong>Creator ID:</strong> {jobDetails.creatorId}</p> */}
         </div>
 
         <div className="job-form-section">
@@ -115,7 +116,8 @@ const JobDetails = () => {
                       <></>
                     )}
                     </span>
-                    <span className="event-time"> - {new Date(event.start).toLocaleString()}</span>
+                    
+                    <span className="event-time"> - {dayjs(event.start).format('M/D/YYYY H:mm A').toString()}</span>
                   </li>
                 ))}
               </ul>

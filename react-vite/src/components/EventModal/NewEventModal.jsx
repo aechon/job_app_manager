@@ -103,9 +103,9 @@ function NewEventModal({ jobId }) {
             onChange={(e) => setType(e.target.value)}
           >
             <option value="null"></option>
-            <option value="zoom">Zoom</option>
-            <option value="google meet">Google Meet</option>
-            <option value="in person">In-person</option>
+            <option value="Zoom">Zoom</option>
+            <option value="Google meet">Google Meet</option>
+            <option value="In person">In-person</option>
           </select>
         </label>
         <label className="event-modal-label">
