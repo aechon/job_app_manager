@@ -107,7 +107,12 @@ const JobDetails = () => {
   <div className="events-list">
     {jobDetails.Events && jobDetails.Events.length > 0 ? (
       <ul>
-        {jobDetails.Events.map((event) => (
+        {jobDetails.Events
+        .sort((a, b) => {
+          if (a.start > b.start) return 1;
+          else return -1;
+        })
+        .map((event) => (
           <li 
             key={event.id} 
             className="event-item" 

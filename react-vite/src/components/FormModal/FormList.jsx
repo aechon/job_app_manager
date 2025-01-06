@@ -49,7 +49,12 @@ const FormsList = () => {
           <p className="centered-message">No forms found.</p>
       ) : (
         <div className="form-container">
-          {userForms.map((form) => (
+          {userForms
+          .sort((a, b) => {
+            if (a.name.localeCompare(b.name) > 0) return 1;
+            else return -1;
+          })
+          .map((form) => (
             <div className="form-item" key={form.id}>
               <div className="form-content">
                 <div className="form-name">Name: {form.name}</div>

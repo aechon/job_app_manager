@@ -143,7 +143,7 @@ const JobUserList = () => {
         <div className="job-container">
           {jobs
           .sort((a, b) => {
-            if (a.name.localeCompare(b.name) > 0) return 1;
+            if (a.createdAt > b.createdAt) return 1;
             else return -1;
           })
           .map((job) => (

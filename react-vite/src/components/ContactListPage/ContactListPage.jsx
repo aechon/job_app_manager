@@ -65,7 +65,12 @@ const ContactListPage = () => {
           <p className="centered-message">No contacts found.</p>
       ) : (
         <div className="contact-container">
-          {contacts.map((contact) => (
+          {contacts
+          .sort((a, b) => {
+            if (a.name.localeCompare(b.name) > 0) return 1;
+            else return -1;
+          })
+          .map((contact) => (
             <div className="contact-item" key={contact.id}>
               {editingContact === contact.id ? (
                 <div>
