@@ -60,6 +60,7 @@ def upgrade():
     sa.Column('employer', sa.String(length=50), nullable=False),
     sa.Column('pay', sa.Integer(), nullable=True),
     sa.Column('creatorId', sa.Integer(), nullable=False),
+    sa.Column('description', sa.String(length=1000), nullable=True),
     sa.Column('createdAt', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updatedAt', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['creatorId'], ['users.id'], ),
