@@ -79,7 +79,12 @@ const JobDetails = () => {
           <div className="contacts-list">
             {jobDetails.Contacts && jobDetails.Contacts.length > 0 ? (
               <ul>
-                {jobDetails.Contacts.map((contact, index) => (
+                {jobDetails.Contacts
+                .sort((a, b) => {
+                  if (a.name.localeCompare(b.name) > 0) return 1;
+                  else return -1;
+                })
+                .map((contact, index) => (
                   <li className='contact-list-item' key={index}>
                     {contact.name} 
                     {contact.email != '' ? (
