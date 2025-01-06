@@ -13,6 +13,7 @@ class Job(db.Model):
     employer = db.Column(db.String(50), nullable=False)
     pay = db.Column(db.Integer)
     creatorId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    description = db.Column(db.String(1000))
     createdAt = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     updatedAt = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
 
@@ -29,5 +30,6 @@ class Job(db.Model):
             'location': self.location,
             'employer': self.employer,
             'pay': self.pay,
-            'creatorId': self.creatorId
+            'creatorId': self.creatorId,
+            'description': self.description,
         }

@@ -17,13 +17,25 @@ def create_job():
     data = request.get_json()
     if not all(k in data for k in ("name", "employer")):
         return jsonify({"error": "Missing required information"}), 400
+    
+    errors = {}
+    if len(data.get('name')) > 50:
+        errors["name"] = "Name must be 50 characters or less"
+
+    if data.get('description'):
+        if len(data.get('description')) > 1000:
+            errors["description"] = "Decription must be 1000 characters or less"
+
+    if errors:
+        return jsonify({"errors": errors}), 400 
 
     new_job = Job(
         name=data.get('name'),
         location=data.get('location'),
         employer=data.get('employer'),
         pay=data.get('pay'),
-        creatorId=current_user.id
+        creatorId=current_user.id,
+        description=data.get('description'),
     )
 
     db.session.add(new_job)
