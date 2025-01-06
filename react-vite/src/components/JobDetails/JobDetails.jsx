@@ -24,6 +24,10 @@ const JobDetails = () => {
     };
   }, [dispatch, jobId]);
 
+  const formatPay = (amount) => {
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleRemoveContact = async (contactId) => {
     // Dispatch the delete action
     const serverResponse = await dispatch(removeJobContactRelation(jobId, contactId));
@@ -57,7 +61,8 @@ const JobDetails = () => {
           <p><strong>Job Name:</strong> {jobDetails.name}</p>
           <p><strong>Employer:</strong> {jobDetails.employer}</p>
           <p><strong>Location:</strong> {jobDetails.location}</p>
-          <p><strong>Pay:</strong> ${jobDetails.pay}</p>
+          <p>Pay: ${formatPay(jobDetails.pay)}</p>
+         
           {/* <p><strong>Creator ID:</strong> {jobDetails.creatorId}</p> */}
         </div>
 
@@ -97,38 +102,35 @@ const JobDetails = () => {
         </div>
 
         <div className="events-section">
-          <h2>Events</h2>
-          <div className="events-list">
-            {jobDetails.Events && jobDetails.Events.length > 0 ? (
-              <ul>
-                {jobDetails.Events.map((event) => (
-                  <li 
-                    key={event.id} 
-                    className="event-item" 
-                    onClick={() => setModalContent(<EventDetailModal eventId={event.id} />)}
-                  >
-                    <span className="event-name">{event.type}
-                    {event.interviewer != '' ? (
-                      <>
-                        {" with " + event.interviewer}
-                      </>
-                    ):(
-                      <></>
-                    )}
-                    </span>
-                    
-                    <span className="event-time"> - {dayjs(event.start).format('M/D/YYYY H:mm A').toString()}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No events available.</p>
-            )}
-          </div>
-          <button className="schedule-new-interview-button" onClick={() => setModalContent(<NewEventModal jobId={jobId} />)}>
-            Schedule New Interview
-          </button>
-        </div>
+  <h2>Events</h2>
+  <div className="events-list">
+    {jobDetails.Events && jobDetails.Events.length > 0 ? (
+      <ul>
+        {jobDetails.Events.map((event) => (
+          <li 
+            key={event.id} 
+            className="event-item" 
+            onClick={() => setModalContent(<EventDetailModal eventId={event.id} />)}
+          >
+            <div className="event-content">
+              <span className="event-name">{event.type}
+                {event.interviewer !== '' ? (
+                  <>{" with " + event.interviewer}</>
+                ) : null}
+              </span>
+              <span className="event-time"> - {dayjs(event.start).format('M/D/YYYY H:mm A')}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No events available.</p>
+    )}
+  </div>
+  <button className="schedule-new-interview-button" onClick={() => setModalContent(<NewEventModal jobId={jobId} />)}>
+    Schedule New Interview
+  </button>
+</div>
       </div>
     </div>
   );
