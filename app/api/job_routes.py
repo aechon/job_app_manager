@@ -86,10 +86,22 @@ def edit_job(job_id):
     if not all(k in data for k in ("name", "employer")):
         return jsonify({"error": "Missing required information"}), 400
 
+    errors = {}
+    if len(data.get('name')) > 50:
+        errors["name"] = "Name must be 50 characters or less"
+
+    if data.get('description'):
+        if len(data.get('description')) > 1000:
+            errors["description"] = "Decription must be 1000 characters or less"
+
+    if errors:
+        return jsonify({"errors": errors}), 400 
+
     job.name=data.get('name')
     job.location=data.get('location')
     job.employer=data.get('employer')
     job.pay=data.get('pay')
+    job.description=data.get('descrption')
 
     db.session.commit()
 

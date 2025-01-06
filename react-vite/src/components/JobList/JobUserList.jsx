@@ -26,7 +26,7 @@ const JobUserList = () => {
 
   const handleEditClick = (job) => {
     setEditingJob(job.id);
-    setJobDetails({ name: job.name, employer: job.employer, location: job.location, pay: job.pay });
+    setJobDetails({ name: job.name, employer: job.employer, location: job.location, pay: job.pay, description: job.description });
     setShowEditModal(true); 
   };
 
@@ -72,7 +72,7 @@ const JobUserList = () => {
 
     if (response.ok) {
       setEditingJob(null);
-      setJobDetails({ name: '', employer: '', location: '', pay: '' });
+      setJobDetails({ name: '', employer: '', location: '', pay: '', description: '' });
       dispatch(fetchJobs());
       setShowEditModal(false); 
     } else {
@@ -98,7 +98,7 @@ const JobUserList = () => {
     });
 
     if (response.ok) {
-      setJobDetails({ name: '', employer: '', location: '', pay: '' });
+      setJobDetails({ name: '', employer: '', location: '', pay: '', description: '' });
       dispatch(fetchJobs());
       setShowCreateModal(false);
     } else {
@@ -187,6 +187,12 @@ const JobUserList = () => {
                   onChange={(e) => setJobDetails({ ...jobDetails, pay: e.target.value })}
                   placeholder="Pay"
                 />
+                <textarea
+                  type="text"
+                  value={jobDetails.description}
+                  onChange={(e) => setJobDetails({ ...jobDetails, description: e.target.value })}
+                  placeholder="Description"
+                />
                 <button type="submit">Save Changes</button>
                 <button type="button" onClick={closeEditModal}>Cancel</button>
               </form>
@@ -226,6 +232,12 @@ const JobUserList = () => {
                 value={jobDetails.pay}
                 onChange={(e) => setJobDetails({ ...jobDetails, pay: e.target.value })}
                 placeholder="Pay"
+              />
+              <textarea
+                type="text"
+                value={jobDetails.description}
+                onChange={(e) => setJobDetails({ ...jobDetails, description: e.target.value })}
+                placeholder="Description"
               />
               <button type="submit">Create Job</button>
               <button type="button" onClick={closeCreateModal}>Cancel</button>

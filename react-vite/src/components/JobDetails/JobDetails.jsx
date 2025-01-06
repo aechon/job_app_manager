@@ -62,6 +62,7 @@ const JobDetails = () => {
           <p><strong>Employer:</strong> {jobDetails.employer}</p>
           <p><strong>Location:</strong> {jobDetails.location}</p>
           <p>Pay: ${formatPay(jobDetails.pay)}</p>
+          <p><strong>Description:</strong> {jobDetails.description}</p>
          
           {/* <p><strong>Creator ID:</strong> {jobDetails.creatorId}</p> */}
         </div>
