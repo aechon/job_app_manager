@@ -3,6 +3,10 @@ import { fetchJobs } from '../../redux/job';
 import { useEffect } from 'react';
 import './JobList.css'; 
 
+const formatPay = (amount) => {
+  return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 const JobList = () => {
   const jobs = useSelector((state) => state.job.jobs);
   const loading = useSelector((state) => state.job.loading);
@@ -33,7 +37,7 @@ const JobList = () => {
               <h3>{job.name}</h3>
               <p>Employer: {job.employer}</p>
               <p>Location: {job.location}</p>
-              <p>Pay: ${job.pay}</p>
+              <p>Pay: ${formatPay(job.pay)}</p> 
             </div>
           ))}
         </div>

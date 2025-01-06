@@ -16,6 +16,10 @@ const JobUserList = () => {
   const [showCreateModal, setShowCreateModal] = useState(false); 
   const [modalMessage, setModalMessage] = useState(''); 
 
+
+
+
+
   useEffect(() => {
     dispatch(fetchJobs()); 
   }, [dispatch]);
@@ -25,6 +29,12 @@ const JobUserList = () => {
     setJobDetails({ name: job.name, employer: job.employer, location: job.location, pay: job.pay });
     setShowEditModal(true); 
   };
+
+
+
+  const formatPay = (amount) => {
+  return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
   const handleDeleteClick = async (jobId) => {
     const token = localStorage.getItem('token');
@@ -128,13 +138,12 @@ const JobUserList = () => {
         <div className="job-container">
           {jobs.map((job) => (
             <div className="job-item" key={job.id}>
-              {/* Make the job name clickable */}
               <h3>
                 <Link to={`/jobs/${job.id}`}>{job.name}</Link>
               </h3>
               <p>Employer: {job.employer}</p>
               <p>Location: {job.location}</p>
-              <p>Pay: ${job.pay}</p>
+              <p>Pay: ${formatPay(job.pay)}</p> 
               <div className="job-buttons">
                 <button className="edit-button" onClick={() => handleEditClick(job)}>Edit</button>
                 <button className="delete-button" onClick={() => handleDeleteClick(job.id)}>Delete</button>

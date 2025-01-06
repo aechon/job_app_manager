@@ -24,20 +24,32 @@ body {
   padding: 20px;
   background-color: #f0f8ff; 
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border: 2px solid #007bff; 
 }
 
 .job-details h1 {
   font-family: 'Montserrat', sans-serif; 
-  font-size: 24px;
-  color: #333;
+  font-size: 28px; 
+  color: #007bff; 
   margin-bottom: 15px;
+  text-align: center;
+  text-transform: uppercase; 
+  letter-spacing: 1px; 
 }
 
 .job-details p {
-  font-size: 16px;
-  color: #555;
-  margin: 5px 0;
+  font-size: 18px; 
+  color: #333; 
+  margin: 10px 0; 
+  padding: 10px; 
+  border-left: 4px solid #007bff; 
+  background-color: #e9f5ff; 
+  transition: background-color 0.3s; 
+}
+
+.job-details p:hover {
+  background-color: #d0e7ff; 
 }
 
 .job-form-section {
@@ -154,4 +166,29 @@ body {
 .add-contact-button:active, .schedule-new-interview-button:active, .add-form-button:active {
   transform: translateY(0); 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+.event-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s;
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.event-content {
+  display: flex; 
+  justify-content: space-between;
+  width: 100%;
+}
+
+.event-name {
+  font-weight: bold; 
+}
+
+.event-time {
+  margin-left: auto; 
+  font-style: italic; 
+  color: #007bff; 
 }
