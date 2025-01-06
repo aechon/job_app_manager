@@ -21,7 +21,7 @@
 
 .contact-content-details {
     display: grid;
-    grid-template-columns: 200px 200px;
+    grid-template-columns: 250px 150px;
     font-size: 13px;
 }
 
