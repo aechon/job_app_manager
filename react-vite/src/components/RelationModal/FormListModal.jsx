@@ -6,7 +6,7 @@ import './ListModal.css';
 import { useModal } from "../../context/Modal";
 import { fetchJobDetails } from "../../redux/job"; 
 
-const FormListModal = ({ jobId, jobForms = [] }) => {
+const FormListModal = ({ jobId, onAddForm }) => {
   const userForms = useSelector((state) => state.form.userForms);
   const user = useSelector((state) => state.session.user); 
   const dispatch = useDispatch();
@@ -22,15 +22,18 @@ const FormListModal = ({ jobId, jobForms = [] }) => {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      // Fetch updated job details after adding the form
-      await dispatch(fetchJobDetails(jobId));
+     
+      const newFormDetails = await fetch(`/api/forms/${formId}`); 
+      const newForm = await newFormDetails.json(); 
+
+      onAddForm(newForm); // Call the onAddForm <==================
       closeModal();
     }  
   };
 
   return (
     <div className="pop_container">
-      <h2 className="modal-title">Add Form to Job</h2> 
+      <h2 className="modal-title">Add Form to Job</h2>
       {userForms.length === 0 ? (
         <p className="centered-message">No forms found.</p>
       ) : (
@@ -40,7 +43,7 @@ const FormListModal = ({ jobId, jobForms = [] }) => {
             <div 
               className="relation-item" 
               key={form.id} 
-              onClick={() => handleAddForm(form.id)} 
+              onClick={() => handleAddForm(form.id)} // Make the hover clickable
               role="button" 
               tabIndex={0} 
               onKeyPress={(e) => { if (e.key === 'Enter') handleAddForm(form.id); }}
@@ -55,11 +58,11 @@ const FormListModal = ({ jobId, jobForms = [] }) => {
           ))}
         </div>
       )}
-      {/* <div className="close-button-container"> 
+      <div className="close-button-container"> 
         {user && ( 
           <button onClick={closeModal} className="close-button">Close</button>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };

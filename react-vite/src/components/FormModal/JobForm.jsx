@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './JobForm.css';
 import { useModal } from "../../context/Modal";
-import { FormListModal } from '../RelationModal';
+import FormListModal from '../RelationModal/FormListModal'; 
 
 const JobForm = () => {
   const { jobId } = useParams(); 
@@ -56,12 +56,15 @@ const JobForm = () => {
         throw new Error('An error occurred while deleting the form.');
       }
 
-     
       setForms((prevForms) => prevForms.filter(form => form.id !== formId));
     } catch (error) {
       console.error('Error:', error);
       setError(error.message || 'An unexpected error occurred while removing the form.');
     }
+  };
+
+  const handleAddForm = (newForm) => {
+    setForms((prevForms) => [...prevForms, newForm]);
   };
 
   if (loading) {
@@ -98,7 +101,7 @@ const JobForm = () => {
           </ul>
         )}
       </div>
-      <button className="add-form-button" onClick={() => setModalContent(<FormListModal jobId={jobId} />)}>Add Form</button>
+      <button className="add-form-button" onClick={() => setModalContent(<FormListModal jobId={jobId} onAddForm={handleAddForm} />)}>Add Form</button>
     </div>
   );
 };
