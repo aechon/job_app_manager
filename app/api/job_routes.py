@@ -101,7 +101,7 @@ def edit_job(job_id):
     job.location=data.get('location')
     job.employer=data.get('employer')
     job.pay=data.get('pay')
-    job.description=data.get('descrption')
+    job.description=data.get('description')
 
     db.session.commit()
 
