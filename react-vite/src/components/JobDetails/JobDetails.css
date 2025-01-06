@@ -1,75 +1,157 @@
+body {
+  font-family: 'Roboto', sans-serif; 
+}
+
 .job-details-container {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 800px; 
-    margin: 0 auto; 
-    text-align: center; 
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  max-width: 900px; 
+  margin: 20px auto; 
+  text-align: left; 
 }
-
-h1, h2 {
-    color: #333;
-}
-
 
 .job-details-and-form {
   display: flex; 
   justify-content: space-between; 
-  margin-bottom: 20px; 
+  margin-bottom: 30px; 
 }
 
 .job-details {
   flex: 1; 
   margin-right: 20px;
+  padding: 20px;
+  background-color: #f0f8ff; 
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.job-details h1 {
+  font-family: 'Montserrat', sans-serif; 
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.job-details p {
+  font-size: 16px;
+  color: #555;
+  margin: 5px 0;
 }
 
 .job-form-section {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.job-form-section button {
+  margin-top: 15px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: #4CAF50; 
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.job-form-section button:hover {
+  background-color: #45a049; 
 }
 
 .contacts-events-container {
-    display: flex; 
-    justify-content: space-around;
-    margin-top: 20px; 
+  display: flex; 
+  justify-content: space-between;
+  margin-top: 30px; 
 }
 
 .contacts-section, .events-section {
-    flex: 1; 
-    margin: 0 10px; 
+  flex: 1; 
+  margin: 0 10px; 
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  height: 300px; 
 }
 
-.edit-job-button, .delete-job-button {
-    margin-left: 10px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    width: 160px;
+.contacts-list, .events-list {
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
-.edit-job-button {
-    background-color: #4CAF50; 
-    color: white;
+.contacts-section h2, .events-section h2 {
+  font-family: 'Montserrat', sans-serif; 
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 15px;
 }
 
-.edit-job-button:hover {
-    background-color: #45a049; 
+.contacts-section ul, .events-section ul {
+  list-style-type: none; 
+  padding: 0; 
+  flex-grow: 1; 
+  overflow-y: auto; 
 }
 
-.delete-job-button {
-    background-color: #f44336; 
-    color: white;
+.contacts-section li, .events-section li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
 }
 
-.delete-job-button:hover {
-    background-color: #e53935; 
+.contact-remove-button {
+  margin-left: auto;
+  justify-content: flex-end;
+  padding: 5px;
 }
 
-.buttons-container {
-    margin-top: 20px; 
-    display: flex; 
-    justify-content: center; 
-    gap: 10px; 
+.contacts-section li:last-child, .events-section li:last-child {
+  border-bottom: none; 
+}
+
+.events-section li:hover {
+  background-color: #e0f7fa;
+  cursor: pointer; 
+}
+
+.add-contact-button, .schedule-new-interview-button, .add-form-button {
+  padding: 10px 20px; 
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  font-size: 16px; 
+  font-weight: bold; 
+  transition: background-color 0.3s, transform 0.3s; 
+  color: white; 
+  text-align: center; 
+  display: inline-block; 
+  margin-top: auto; 
+}
+
+.add-contact-button, .schedule-new-interview-button, .add-form-button {
+  background-color: #0056b3; 
+}
+
+.add-contact-button:hover, .schedule-new-interview-button:hover, .add-form-button:hover {
+  background-color: #0056b3; 
+  transform: translateY(-2px); 
+}
+
+.add-contact-button, .schedule-new-interview-button, .add-form-button {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.add-contact-button:active, .schedule-new-interview-button:active, .add-form-button:active {
+  transform: translateY(0); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
 }

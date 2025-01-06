@@ -28,7 +28,17 @@ function EventCalendar() {
         <ul className="events">
           {dayEvents.map((event) => (
             <li key={event.id}>
-              <NavLink to='/'>{event.start}</NavLink>
+              <NavLink to={`/jobs/${event.jobId}`}>
+                {dayjs(event.start).format('H:MM A').toString() + ': '}
+                {event.type}
+                {event.interviewer != '' ? (
+                  <>
+                    {" with " + event.interviewer}
+                  </>
+                ):(
+                  <></>
+                )}
+              </NavLink>
             </li>
           ))}
         </ul>

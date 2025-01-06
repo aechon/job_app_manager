@@ -192,7 +192,7 @@ def add_contact_to_job(job_id, contact_id):
     if not contact:
         return jsonify({"message": "Contact not found"}), 404
 
-    if contact.userId != current_user.id or (job.creatorId != current_user.id and job not in Job.query.join(contact_jobs, Job.id == contact_jobs.c.job_id).join(User, contact_jobs.c.user_id == User.id).filter_by(id=current_user.id).all()):
+    if contact.userId != current_user.id or (job.creatorId != current_user.id and job not in Job.query.join(user_jobs, Job.id == user_jobs.c.job_id).join(User, user_jobs.c.user_id == User.id).filter_by(id=current_user.id).all()):
         return jsonify({"error": "Unauthorized access"}), 403
     
     if db.session.execute(db.select(contact_jobs).where(contact_jobs.c.contact_id == contact_id, contact_jobs.c.job_id == job_id)).first():

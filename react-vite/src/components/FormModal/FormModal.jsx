@@ -21,9 +21,9 @@ function FormModal({ initialData, onSave }) {
 
   const validateInputs = () => {
     const validationErrors = {};
-    if (!/^[a-zA-Z\s]+$/.test(name)) {
-      validationErrors.name = "Name must contain only letters and spaces.";
-    }
+    // if (!/^[a-zA-Z\s]+$/.test(name)) {
+    //   validationErrors.name = "Name must contain only letters and spaces.";
+    // }
     if (!/^https?:\/\/.+/.test(link)) {
       validationErrors.link = "Invalid link format.";
     }

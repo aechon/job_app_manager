@@ -4,12 +4,11 @@ import { useModal } from "../../context/Modal";
 import { DatePicker, TimePicker } from "antd";
 import { editEvent } from "../../redux/event";
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc'
+import utc from 'dayjs/plugin/utc';
 import "./EventModal.css";
 import { fetchJobDetails } from "../../redux/job";
 
-function EditEventModal({eventId, jobId, initialStart = dayjs(), initialDuration = 60, initialType = '', initialInterviewer = '', initialContactId = ''}) { 
-  
+function EditEventModal({ eventId, jobId, initialStart = dayjs(), initialDuration = 60, initialType = '', initialInterviewer = '', initialContactId = '' }) { 
   const dispatch = useDispatch();
   const jobDetails = useSelector((state) => state.job.jobDetails);
   const [errors, setErrors] = useState({});
@@ -28,13 +27,16 @@ function EditEventModal({eventId, jobId, initialStart = dayjs(), initialDuration
   }, [dispatch, jobId]);
 
   useEffect(() => {
-    if (jobDetails) setContacts(jobDetails.Contacts)
-  }, [jobDetails])
+    if (jobDetails) setContacts(jobDetails.Contacts);
+  }, [jobDetails]);
 
   useEffect(() => {
-    if (date === null || date.isBefore(dayjs()) || time === null || duration <= 0 || interviewer.length > 50) setDisable(true);
-    else setDisable(false);
-  }, [date, time, duration, interviewer])
+    if (date === null || date.isBefore(dayjs()) || time === null || duration <= 0 || interviewer.length > 50) {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  }, [date, time, duration, interviewer]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,25 +53,21 @@ function EditEventModal({eventId, jobId, initialStart = dayjs(), initialDuration
         type,
         interviewer,
         jobId,
+        contactId
       }, eventId)
     );
-
-    // console.log("Server Response:", serverResponse); // Debugging line
 
     if (serverResponse) {
       // If there's an error from the server, set the errors
       setErrors(serverResponse);
       console.log(errors);
     } else {
-      // If the form is created successfully
-    closeModal(); // Close the modal
+    
+      await dispatch(fetchJobDetails(jobId)); // Fetch updated job details after editing <============================
+      closeModal(); // Close the modal
     }  
   };
 
-  if (contacts) {
-    if (contacts.length === 0) setContacts(null);
-  }
-  
   return (
     <div className="event-modal">
       <h1 className="event-modal-title">Update Interview</h1>

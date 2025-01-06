@@ -25,8 +25,8 @@ def create_form():
     # Validate name and link
     if not all(k in data for k in ("name", "link")):
         return jsonify({"error": "Missing required data"}), 400
-    if not re.match(r'^[a-zA-Z\s]+$', data['name']):
-        return jsonify({"error": "Name must contain only letters and spaces"}), 400
+    # if not re.match(r'^[a-zA-Z\s]+$', data['name']):
+    #     return jsonify({"error": "Name must contain only letters and spaces"}), 400
     if not re.match(r'^https?://.+', data['link']):
         return jsonify({"error": "Invalid link format"}), 400
 

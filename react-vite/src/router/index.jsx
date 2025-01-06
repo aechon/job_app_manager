@@ -15,6 +15,7 @@ import JobUserList from '../components/JobList/JobUserList'
 // Imports for testing
 import OpenModalMenuItem from "../components/Navigation/OpenModalMenuItem";
 import { NewEventModal, EventDetailModal } from '../components/EventModal';
+import { ContactListModal, FormListModal } from '../components/RelationModal';
 let jobId = 7;
 let eventId = 25;
 // delete all these later
@@ -86,6 +87,20 @@ export const router = createBrowserRouter([
                     // onItemClick={closeModal}
                     modalComponent={<EventDetailModal 
                       eventId={eventId} />}
+                    className="new-event-button" 
+                  />
+            <OpenModalMenuItem
+                    itemText="Add Form Relation"
+                    // onItemClick={closeModal}
+                    modalComponent={<FormListModal 
+                       />}
+                    className="new-event-button" 
+                  />
+            <OpenModalMenuItem
+                    itemText="Add Contact Relation"
+                    // onItemClick={closeModal}
+                    modalComponent={<ContactListModal 
+                       />}
                     className="new-event-button" 
                   />
         </div>,
