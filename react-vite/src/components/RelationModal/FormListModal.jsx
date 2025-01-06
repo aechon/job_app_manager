@@ -4,7 +4,6 @@ import { fetchUserForms } from '../../redux/form';
 import { addJobFormRelation } from '../../redux/job';
 import './ListModal.css'; 
 import { useModal } from "../../context/Modal";
-import { fetchJobDetails } from "../../redux/job"; 
 
 const FormListModal = ({ jobId, onAddForm }) => {
   const userForms = useSelector((state) => state.form.userForms);

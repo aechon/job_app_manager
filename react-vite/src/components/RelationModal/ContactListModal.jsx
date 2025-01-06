@@ -8,7 +8,6 @@ import { fetchJobDetails } from "../../redux/job";
 
 const ContactListModal = ({ jobId, jobContacts = [] }) => {
   const contacts = useSelector((state) => state.contact.contacts);
-  const user = useSelector((state) => state.session.user); 
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
