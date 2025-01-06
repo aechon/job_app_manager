@@ -124,14 +124,14 @@ const ContactListPage = () => {
                       )}
                     </div>
                     <div className="contact-email">Email:  
-                      {contact.company === '' ? (
+                      {contact.email === '' ? (
                         <text> N/A</text>
                       ) : (
                         <text> {contact.email}</ text>
                       )}
                     </div>
                     <div className="contact-phone">Phone:  
-                      {contact.company === '' ? (
+                      {contact.phone === '' ? (
                         <text> N/A</text>
                       ) : (
                         <text> {contact.phone}</text>
